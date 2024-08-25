@@ -1,5 +1,4 @@
 package View;
-import FormControl.Controlador;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,12 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JTextField;
+import FormControl.Controlador;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class Pantalla {
 
@@ -51,26 +49,33 @@ public class Pantalla {
 	private void initialize() {
 		frame = new JFrame();
 		controlador = new Controlador();
-		frame.setBounds(150, 200, 450, 300);
+		frame.setBounds(150, 200, 284, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(128, 64, 0));
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		Matriz = new JLabel("");
-		Matriz.setFont(new Font("Tahoma", Font.PLAIN, 50));
-		Matriz.setBounds(137, 34, 152, 179);
+		Matriz.setHorizontalAlignment(SwingConstants.CENTER);
+		Matriz.setOpaque(true);
+		Matriz.setBackground(new Color(190, 140, 65));
+		Matriz.setAutoscrolls(true);
+		Matriz.setFont(new Font("Arial Black", Font.PLAIN, 40));
+		Matriz.setBounds(56, 55, 163, 170);
 		panel.add(Matriz);
 		
 		//Matriz.setText(controlador.imprimirMatriz());
 		Matriz.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
 		
 		contadorMovimientos = new JLabel("Contador: 0");
+		contadorMovimientos.setHorizontalAlignment(SwingConstants.CENTER);
+		contadorMovimientos.setOpaque(true);
 		contadorMovimientos.setForeground(new Color(255, 0, 0));
-		contadorMovimientos.setBackground(new Color(255, 0, 0));
+		contadorMovimientos.setBackground(new Color(0, 255, 64));
 		contadorMovimientos.setFont(new Font("Arial Black", Font.BOLD, 15));
-		contadorMovimientos.setBounds(10, 11, 117, 29);
+		contadorMovimientos.setBounds(83, 15, 117, 29);
 		panel.add(contadorMovimientos);
 		
 		 // ESCUCHAR INPUTS DEL TECLADO
