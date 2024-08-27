@@ -38,7 +38,7 @@ public class Controlador {
 			numeros.add(i);
 		}
 		numeros.add(0); // Añadir el casillero vacío
-		Collections.shuffle(numeros);//mesclar numeros (Randomly permutes the specified list using a default source ofrandomness)
+		//Collections.shuffle(numeros);//mesclar numeros (Randomly permutes the specified list using a default source ofrandomness)
 
 		int index = 0;
 		for (int i = 0; i < matriz.length; i++) {

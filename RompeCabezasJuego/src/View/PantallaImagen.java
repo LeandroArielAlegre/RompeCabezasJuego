@@ -24,10 +24,18 @@ public class PantallaImagen {
 	private ControladorImagen controladorImagen;
 	private JFrame frame;
 	private BufferedImage[][] MatrizImagenes;
+	private menu menu;
 
 	/**
 	 * Launch the application.
 	 */
+	public void setMenu(menu m1) {
+		this.menu = m1;
+	}
+	public void setVisiblePantalla(boolean condicion) {
+		frame.setVisible(condicion);
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -83,7 +91,7 @@ public class PantallaImagen {
 						BufferedImage imagenOriginal = ImageIO.read(PantallaImagen.class.getResourceAsStream(rutaImagen[index]));
 						//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
 						MatrizImagenes = controladorImagen.cortarImagen(imagenOriginal);
-						ImageIcon imageIcon = new ImageIcon(MatrizImagenes[0][0]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+						ImageIcon imageIcon = new ImageIcon(MatrizImagenes[2][0]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
 						// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 						ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH));
 						imagenLabel.setIcon(img); 
@@ -107,6 +115,20 @@ public class PantallaImagen {
 		});
 		btnImagen.setBounds(48, 348, 270, 57);
 		frame.getContentPane().add(btnImagen);
+		
+		JButton btnVolver = new JButton("Atras");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				menu m1 = new menu();
+				m1.setVisiblePantalla(true);
+				frame.setVisible(false);
+				//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				frame.dispose();
+				//menu.setVisiblePantalla(true);
+			}
+		});
+		btnVolver.setBounds(10, 443, 89, 23);
+		frame.getContentPane().add(btnVolver);
 		
 		
 		
