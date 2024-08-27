@@ -69,6 +69,10 @@ public class PantallaImagen {
 		comboBox.setBounds(90, 315, 126, 20);
 		frame.getContentPane().add(comboBox);
 		
+		JLabel imagenCompleta = new JLabel("");
+		imagenCompleta.setBounds(403, 240, 262, 177);
+		frame.getContentPane().add(imagenCompleta);
+		
 		JButton btnImagen = new JButton("Mostrar");
 		btnImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,6 +87,12 @@ public class PantallaImagen {
 						// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 						ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH));
 						imagenLabel.setIcon(img); 
+						
+						//test para ver la imagen 
+						ImageIcon icono = new ImageIcon(imagenOriginal);
+						ImageIcon imgOriginal = new ImageIcon(icono.getImage().getScaledInstance(imagenCompleta.getWidth(), imagenCompleta.getHeight(), Image.SCALE_SMOOTH));
+						imagenCompleta.setIcon(imgOriginal);
+						
 				} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -97,6 +107,8 @@ public class PantallaImagen {
 		});
 		btnImagen.setBounds(48, 348, 270, 57);
 		frame.getContentPane().add(btnImagen);
+		
+		
 		
 		
 		
