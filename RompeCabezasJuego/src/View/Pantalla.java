@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import FormControl.Controlador;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JTextField;
+//import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,9 +22,9 @@ public class Pantalla {
 	private JLabel Matriz;
 	private JLabel contadorMovimientos;
 	private int contador = 0;
-	private String [] teclado =  {"a","d","w","s"};
+//	private String [] teclado =  {"a","d","w","s"};
 	private JButton btnVolver;
-	private menu menu;
+	private Menu menu;
 	/**
 	 * Launch the application.
 	 */
@@ -32,7 +32,7 @@ public class Pantalla {
 		frame.setVisible(condicion);
 	}
 	
-	public void setMenu(menu m1) {
+	public void setMenu(Menu m1) {
 		this.menu = m1;
 	}
 	
@@ -117,13 +117,13 @@ public class Pantalla {
 			public void keyPressed(KeyEvent e) {
 				char tecla = e.getKeyChar();
 				String teclaS1 =String.valueOf(tecla);
-				if(esTecla(teclaS1)) {
+//				if(esTecla(teclaS1)) {
 					contador = controlador.desplazarmeEnMatriz(teclaS1, contador);
                     Matriz.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
                     String contadorS = String.valueOf(contador);
                     contadorMovimientos.setText("Contador: " +contadorS);
 					
-				}
+//				}
 				
 			
 			}
@@ -140,7 +140,7 @@ public class Pantalla {
 		
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu m1 = new menu();
+				Menu m1 = new Menu();
 				
 				m1.setVisiblePantalla(true);
 				frame.setVisible(false);
@@ -157,12 +157,12 @@ public class Pantalla {
 		
 	}
 	
-	public boolean esTecla(String tecla) {
-		for (int i = 0; i< this.teclado.length; i++) {
-			if(tecla.equals(this.teclado[i]));
-				return true;
-			
-		}
-		return false;
-	}
+//	public boolean esTecla(String tecla) {
+//		for (int i = 0; i< this.teclado.length; i++) {
+//			if(tecla.equals(this.teclado[i]));
+//				return true;
+//			
+//		}
+//		return false;
+//	}
 }

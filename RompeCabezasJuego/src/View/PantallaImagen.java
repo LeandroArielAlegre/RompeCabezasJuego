@@ -6,16 +6,16 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import FormControl.Controlador;
+//import FormControl.Controlador;
 import FormControl.ControladorImagen;
 
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -24,12 +24,12 @@ public class PantallaImagen {
 	private ControladorImagen controladorImagen;
 	private JFrame frame;
 	private BufferedImage[][] MatrizImagenes;
-	private menu menu;
+	private Menu menu;
 
 	/**
 	 * Launch the application.
 	 */
-	public void setMenu(menu m1) {
+	public void setMenu(Menu m1) {
 		this.menu = m1;
 	}
 	public void setVisiblePantalla(boolean condicion) {
@@ -119,7 +119,7 @@ public class PantallaImagen {
 		JButton btnVolver = new JButton("Atras");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu m1 = new menu();
+				Menu m1 = new Menu();
 				m1.setVisiblePantalla(true);
 				frame.setVisible(false);
 				//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

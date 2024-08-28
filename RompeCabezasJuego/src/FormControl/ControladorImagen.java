@@ -4,7 +4,7 @@ public class ControladorImagen {
 	
 	
 	private BufferedImage[][] MatrizGanadora;
-	private BufferedImage[][] MatrizDesordenada;
+//	private BufferedImage[][] MatrizDesordenada;
 	public ControladorImagen() {
 		
 	}
