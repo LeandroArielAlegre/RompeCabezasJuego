@@ -67,7 +67,7 @@ public class PantallaImagen {
 		frame.getContentPane().setLayout(null);
 		
 		//declaracion de labels
-		JLabel imagenLabel = new JLabel("New label");
+		JLabel imagenLabel = new JLabel("");
 		imagenLabel.setBounds(79, 45, 74, 45);
 		frame.getContentPane().add(imagenLabel);
 		
@@ -95,7 +95,8 @@ public class PantallaImagen {
 						// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 						ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH));
 						imagenLabel.setIcon(img); 
-						
+						imagenLabel.setIcon(null);
+						//imagenLabel.setIcon(img);
 						//test para ver la imagen 
 						ImageIcon icono = new ImageIcon(imagenOriginal);
 						ImageIcon imgOriginal = new ImageIcon(icono.getImage().getScaledInstance(imagenCompleta.getWidth(), imagenCompleta.getHeight(), Image.SCALE_SMOOTH));

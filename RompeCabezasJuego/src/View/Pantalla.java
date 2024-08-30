@@ -19,22 +19,20 @@ public class Pantalla {
 
 	private JFrame frame;
 	private Controlador controlador;
-	private JLabel Matriz;
+	private JLabel matrizDeNumerosVisible;
 	private JLabel contadorMovimientos;
 	private int contador = 0;
 //	private String [] teclado =  {"a","d","w","s"};
-	private JButton btnVolver;
-	private Menu menu;
-	/**
-	 * Launch the application.
-	 */
-	public void setVisiblePantalla(boolean condicion) {
+	private JButton botonVolverAMenu;
+//	private Menu menu;
+
+	public void mostrarPantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
 	
-	public void setMenu(Menu m1) {
-		this.menu = m1;
-	}
+//	public void setMenu(Menu m1) {
+//		this.menu = m1;
+//	}
 	
 	
 	
@@ -55,41 +53,40 @@ public class Pantalla {
 	 * Create the application.
 	 */
 	public Pantalla() {
-		initialize();
+		inicializar();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void inicializar() {
 		frame = new JFrame();
 		controlador = new Controlador();
 		frame.setBounds(150, 200, 284, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(128, 64, 0));
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
+		JPanel panelPantallaJuego = new JPanel();
+		panelPantallaJuego.setBackground(new Color(128, 64, 0));
+		frame.getContentPane().add(panelPantallaJuego, BorderLayout.CENTER);
+		panelPantallaJuego.setLayout(null);
 		
 		//boton
 		//botones
-		btnVolver = new JButton("Atras");
-		btnVolver.setFocusable(false);
-		btnVolver.setBounds(0, 238, 89, 23);
-		panel.add(btnVolver);
+		botonVolverAMenu = new JButton("Atras");
+		botonVolverAMenu.setFocusable(false);
+		botonVolverAMenu.setBounds(0, 238, 89, 23);
+		panelPantallaJuego.add(botonVolverAMenu);
 		//
-		Matriz = new JLabel("");
-		Matriz.setHorizontalAlignment(SwingConstants.CENTER);
-		Matriz.setOpaque(true);
-		Matriz.setBackground(new Color(190, 140, 65));
-		Matriz.setAutoscrolls(true);
-		Matriz.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		Matriz.setBounds(56, 55, 163, 170);
-		panel.add(Matriz);
+		matrizDeNumerosVisible = new JLabel("");
+		matrizDeNumerosVisible.setHorizontalAlignment(SwingConstants.CENTER);
+		matrizDeNumerosVisible.setOpaque(true);
+		matrizDeNumerosVisible.setBackground(new Color(190, 140, 65));
+		matrizDeNumerosVisible.setAutoscrolls(true);
+		matrizDeNumerosVisible.setFont(new Font("Arial Black", Font.PLAIN, 40));
+		matrizDeNumerosVisible.setBounds(56, 55, 163, 170);
+		panelPantallaJuego.add(matrizDeNumerosVisible);
 		
-		//Matriz.setText(controlador.imprimirMatriz());
-		Matriz.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
+		matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
 		
 		contadorMovimientos = new JLabel("Contador: 0");
 		contadorMovimientos.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,7 +95,7 @@ public class Pantalla {
 		contadorMovimientos.setBackground(new Color(0, 255, 64));
 		contadorMovimientos.setFont(new Font("Arial Black", Font.BOLD, 15));
 		contadorMovimientos.setBounds(83, 15, 117, 29);
-		panel.add(contadorMovimientos);
+		panelPantallaJuego.add(contadorMovimientos);
 		
 		
 		
@@ -115,13 +112,13 @@ public class Pantalla {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				char tecla = e.getKeyChar();
-				String teclaS1 =String.valueOf(tecla);
+				char teclaPresionada = e.getKeyChar();
+				String caracterTeclaPresionada =String.valueOf(teclaPresionada);
 //				if(esTecla(teclaS1)) {
-					contador = controlador.desplazarmeEnMatriz(teclaS1, contador);
-                    Matriz.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
-                    String contadorS = String.valueOf(contador);
-                    contadorMovimientos.setText("Contador: " +contadorS);
+					contador = controlador.desplazarmeEnMatriz(caracterTeclaPresionada, contador);
+                    matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
+                    String contadorVisible = String.valueOf(contador);
+                    contadorMovimientos.setText("Contador: " +contadorVisible);
 					
 //				}
 				
@@ -138,11 +135,11 @@ public class Pantalla {
 		 });
 		
 		
-		btnVolver.addActionListener(new ActionListener() {
+		botonVolverAMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Menu m1 = new Menu();
+				Menu menu = new Menu();
 				
-				m1.setVisiblePantalla(true);
+				menu.setVisiblePantalla(true);
 				frame.setVisible(false);
 				//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				frame.dispose();
