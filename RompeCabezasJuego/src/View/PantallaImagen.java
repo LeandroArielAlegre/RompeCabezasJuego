@@ -5,82 +5,34 @@ import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 
-import FormControl.Controlador;
+//import FormControl.Controlador;
 import FormControl.ControladorImagen;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
+//import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import java.awt.Component;
 
 public class PantallaImagen {
 	private ControladorImagen controladorImagen;
 	private JFrame frame;
 	private BufferedImage[][] MatrizImagenes;
-	private JLabel [][] labels = new JLabel[3][3];
-	
-	
-	public void setRompecabezas(BufferedImage [][] MatrizImagenes, JLabel[][] labels) {
-		int xlabel = 190;
-		int ylabel = 70;
-		int auXlabel = 190;
-		//int auYlabel = 70;
-		
-		for (int i = 0; i < MatrizImagenes.length; i++) {
-			for (int j = 0; j < MatrizImagenes[i].length; j++) {
-				if(labels[i][j] == null) {
-					labels[i][j] = new JLabel();
-					labels[i][j].setBounds(xlabel, ylabel, 90, 90);
-					frame.getContentPane().add(labels[i][j]);
-					
-					ImageIcon imageIcon = new ImageIcon(MatrizImagenes[i][j]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-					// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
-					ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[i][j].getWidth(), labels[i][j].getHeight(), Image.SCALE_SMOOTH));
-					labels[i][j].setIcon(img); 
-					
-					
-				}
-				actualizarImagen(i,j);
-					
-				xlabel+= 90;
-			}
-			xlabel= auXlabel;
-			ylabel += 90;
-			
-		}
-		
-		
-		System.out.println("PRONTO");
-		
-	}
-	
-	 public void actualizarImagen(int i, int j) {
-	        if (this.MatrizImagenes[i][j] != null && labels[i][j] != null) {
-	        	ImageIcon imageIcon = new ImageIcon(MatrizImagenes[i][j]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
-				ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[i][j].getWidth(), labels[i][j].getHeight(), Image.SCALE_SMOOTH));
-				labels[i][j].setIcon(img); 
-	          
-	        }
-	    }
+	private Menu menu;
 
 	/**
 	 * Launch the application.
 	 */
-	
+	public void setMenu(Menu m1) {
+		this.menu = m1;
+	}
 	public void setVisiblePantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
@@ -116,14 +68,15 @@ public class PantallaImagen {
 		frame.getContentPane().setLayout(null);
 		
 		//declaracion de labels
-		JLabel imagenLabel = new JLabel("New label");
-		imagenLabel.setBounds(10, 298, 74, 45);
+		JLabel imagenLabel = new JLabel("a");
+		imagenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		imagenLabel.setBounds(79, 45, 74, 45);
 		frame.getContentPane().add(imagenLabel);
 		
 		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3"});
 		//Listas simetricas
 		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg"};
-		comboBox.setBounds(10, 344, 126, 20);
+		comboBox.setBounds(90, 315, 126, 20);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel imagenCompleta = new JLabel("");
@@ -140,34 +93,36 @@ public class PantallaImagen {
 						BufferedImage imagenOriginal = ImageIO.read(PantallaImagen.class.getResourceAsStream(rutaImagen[index]));
 						//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
 						MatrizImagenes = controladorImagen.cortarImagen(imagenOriginal);
-						
-						setRompecabezas(MatrizImagenes, labels);
+						ImageIcon imageIcon = new ImageIcon(MatrizImagenes[2][0]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+						// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
+						ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH));
+						imagenLabel.setIcon(img); 
+						imagenLabel.setIcon(null);
+						imagenLabel.setIcon(img);
 						//test para ver la imagen 
 						ImageIcon icono = new ImageIcon(imagenOriginal);
 						ImageIcon imgOriginal = new ImageIcon(icono.getImage().getScaledInstance(imagenCompleta.getWidth(), imagenCompleta.getHeight(), Image.SCALE_SMOOTH));
 						imagenCompleta.setIcon(imgOriginal);
 						
-						
-						
-						
-						
 				} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					
-					
+					//ImageIcon ico = new ImageIcon(getClass().getResource("/resources/imagen1.png"));
+					//ImageIcon img = new ImageIcon(ico.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH));
+					//imagenLabel.setIcon(img);
 					
 				}
 				
 			}
 		});
-		btnImagen.setBounds(10, 375, 190, 50);
+		btnImagen.setBounds(48, 348, 270, 57);
 		frame.getContentPane().add(btnImagen);
 		
 		JButton btnVolver = new JButton("Atras");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu m1 = new menu();
+				Menu m1 = new Menu();
 				m1.setVisiblePantalla(true);
 				frame.setVisible(false);
 				//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -179,9 +134,9 @@ public class PantallaImagen {
 		frame.getContentPane().add(btnVolver);
 		
 		
-	
+		
+		
 		
 		
 	}
-	
 }

@@ -3,8 +3,8 @@ import java.awt.image.BufferedImage;
 public class ControladorImagen {
 	
 	
-	private BufferedImage[][] MatrizOrdenada;
-	private BufferedImage[][] MatrizDesordenada;
+	private BufferedImage[][] MatrizGanadora;
+//	private BufferedImage[][] MatrizDesordenada;
 	public ControladorImagen() {
 		
 	}
@@ -16,16 +16,16 @@ public class ControladorImagen {
 	        int ancho = imagen.getWidth() / columnas;
 	        int alto = imagen.getHeight() / filas;
 
-	         this.MatrizOrdenada = new BufferedImage[filas][columnas];
+	         this.MatrizGanadora = new BufferedImage[filas][columnas];
 	         
 	         // Aqui ocurre la magia
 	        for (int i = 0; i < filas; i++) {
 	            for (int j = 0; j < columnas; j++) {
-	            	this.MatrizOrdenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
+	            	this.MatrizGanadora[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
 	            }
 	        }
 
-	        return this.MatrizOrdenada;
+	        return this.MatrizGanadora;
 	    }
-	//hola
+	
 }
