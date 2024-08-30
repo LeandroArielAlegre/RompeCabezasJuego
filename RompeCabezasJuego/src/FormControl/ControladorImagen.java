@@ -63,7 +63,7 @@ public class ControladorImagen {
 
 				}
 			}
-
+//a
 
 
 			//Si se mueve a la abajo
