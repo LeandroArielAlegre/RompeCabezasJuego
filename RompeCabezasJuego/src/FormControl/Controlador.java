@@ -39,7 +39,7 @@ public class Controlador {
 		for (int cantidadMovimientosAleatorios = 0; cantidadMovimientosAleatorios < 1000; cantidadMovimientosAleatorios++) 
 		{
 			String movimiento = movimientos[rand.nextInt(movimientos.length)];
-			desplazarmeEnMatriz(movimiento, 1);
+			desplazarmeEnMatriz(movimiento, 0);
 		}
 	}
 
