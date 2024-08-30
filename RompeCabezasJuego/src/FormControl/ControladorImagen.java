@@ -27,5 +27,5 @@ public class ControladorImagen {
 
 	        return this.MatrizOrdenada;
 	    }
-	
+	//hola
 }
