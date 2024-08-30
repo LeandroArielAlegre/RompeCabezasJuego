@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +33,9 @@ public class PantallaImagen {
 	private JFrame frame;
 	private BufferedImage[][] MatrizImagenes;
 	private JLabel [][] labels = new JLabel[3][3];
+	private JLabel contadorMovimientos;
+	private int contador = 0;
+	private String [] teclado =  {"a","d","w","s"};
 	
 	
 	public void setRompecabezas(BufferedImage [][] MatrizImagenes, JLabel[][] labels) {
@@ -43,7 +48,7 @@ public class PantallaImagen {
 			for (int j = 0; j < MatrizImagenes[i].length; j++) {
 				if(labels[i][j] == null) {
 					labels[i][j] = new JLabel();
-					labels[i][j].setBounds(xlabel, ylabel, 90, 90);
+					labels[i][j].setBounds(xlabel, ylabel, 100, 100);
 					frame.getContentPane().add(labels[i][j]);
 					
 					ImageIcon imageIcon = new ImageIcon(MatrizImagenes[i][j]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
@@ -55,15 +60,15 @@ public class PantallaImagen {
 				}
 				actualizarImagen(i,j);
 					
-				xlabel+= 90;
+				xlabel+= 102;
 			}
 			xlabel= auXlabel;
-			ylabel += 90;
+			ylabel += 102;
 			
 		}
 		
 		
-		System.out.println("PRONTO");
+	
 		
 	}
 	
@@ -76,6 +81,18 @@ public class PantallaImagen {
 	          
 	        }
 	    }
+	 // Metodo actualiza la pantalla en el juego
+	 public void imagenActualizada(BufferedImage [][] MatrizImagenes, JLabel[][] labels) {
+		 for (int i = 0; i < MatrizImagenes.length; i++) {
+			 for (int j = 0; j < MatrizImagenes.length; j++) {
+				 ImageIcon imageIcon = new ImageIcon(MatrizImagenes[i][j]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
+				ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[i][j].getWidth(), labels[i][j].getHeight(), Image.SCALE_SMOOTH));
+				labels[i][j].setIcon(img); 
+			}
+			
+		}
+	 }
 
 	/**
 	 * Launch the application.
@@ -120,17 +137,19 @@ public class PantallaImagen {
 		imagenLabel.setBounds(10, 298, 74, 45);
 		frame.getContentPane().add(imagenLabel);
 		
-		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3"});
+		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
+		comboBox.setFocusable(false);
 		//Listas simetricas
-		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg"};
+		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg", "/resources/imagen4.png", "/resources/imagen5.png"};
 		comboBox.setBounds(10, 344, 126, 20);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel imagenCompleta = new JLabel("");
-		imagenCompleta.setBounds(403, 240, 262, 177);
+		imagenCompleta.setBounds(427, 298, 262, 177);
 		frame.getContentPane().add(imagenCompleta);
 		
 		JButton btnImagen = new JButton("Mostrar");
+		btnImagen.setFocusable(false);
 		btnImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -165,6 +184,7 @@ public class PantallaImagen {
 		frame.getContentPane().add(btnImagen);
 		
 		JButton btnVolver = new JButton("Atras");
+		btnVolver.setFocusable(false);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu m1 = new menu();
@@ -180,8 +200,61 @@ public class PantallaImagen {
 		
 		
 	
+		// INPUTS
+		 // ESCUCHAR INPUTS DEL TECLADO
+		frame.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				String teclaS1 =String.valueOf(tecla);
+				if(esTecla(teclaS1)) {
+					contador = controladorImagen.desplazarmeEnMatriz(teclaS1, contador);
+                    String contadorS = String.valueOf(contador);
+                    
+                    imagenActualizada(MatrizImagenes , labels);
+				}
+				
+			
+			}
+			
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			 
+		 });
 		
+		
+		
+		
+		
+		
+		
+		
+			
 		
 	}
+	public boolean esTecla(String tecla) {
+		for (int i = 0; i< this.teclado.length; i++) {
+			if(tecla.equals(this.teclado[i]));
+				return true;
+			
+		}
+		return false;
+	}
+		
+		
+
+	
+
 	
 }
