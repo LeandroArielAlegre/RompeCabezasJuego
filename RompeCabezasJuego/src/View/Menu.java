@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
-public class menu {
+public class Menu {
 
 	private JFrame frame;
 	private PantallaImagen pantallaImagen;
@@ -28,14 +28,14 @@ public class menu {
 	public void setVisiblePantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
-	private void crearPantalla() {
-		pantallaImagen = new PantallaImagen();
-	}
+//	private void crearPantalla() {
+//		pantallaImagen = new PantallaImagen();
+//	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					menu window = new menu();
+					Menu window = new Menu();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class menu {
 	/**
 	 * Create the application.
 	 */
-	public menu() {
+	public Menu() {
 		initialize();
 	}
 
@@ -78,7 +78,7 @@ public class menu {
 		btnPantalla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				pantalla.setVisiblePantalla(true);
+				pantalla.mostrarPantalla(true);
 				
 				frame.dispose();
 			}
@@ -99,5 +99,9 @@ public class menu {
 		JLabel lblNewLabel = new JLabel("ROMPECABEZAS EL JUEGO");
 		lblNewLabel.setBounds(195, 44, 152, 14);
 		frame.getContentPane().add(lblNewLabel);
+	}
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		frame.setVisible(true);
 	}
 }
