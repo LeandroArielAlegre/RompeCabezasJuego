@@ -94,7 +94,7 @@ public class Pantalla {
 		contadorMovimientos.setForeground(new Color(255, 0, 0));
 		contadorMovimientos.setBackground(new Color(0, 255, 64));
 		contadorMovimientos.setFont(new Font("Arial Black", Font.BOLD, 15));
-		contadorMovimientos.setBounds(83, 15, 117, 29);
+		contadorMovimientos.setBounds(56, 15, 163, 29);
 		panelPantallaJuego.add(contadorMovimientos);
 		
 		
@@ -152,6 +152,10 @@ public class Pantalla {
 		
 			
 		
+	}
+
+	public void setVisiblePantalla(boolean condicion) {
+		frame.setVisible(condicion);
 	}
 	
 //	public boolean esTecla(String tecla) {

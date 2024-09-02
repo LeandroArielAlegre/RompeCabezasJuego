@@ -1,3 +1,4 @@
+
 package View;
 
 import java.awt.EventQueue;
@@ -7,12 +8,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Menu {
 
 	private JFrame frame;
 	private PantallaImagen pantallaImagen;
-	private Pantalla pantalla;
+	private Pantalla pantallaPuzzleNumeros;
 	
 
 	/**
@@ -22,15 +25,12 @@ public class Menu {
 		this.pantallaImagen = pantallaImagen;
 	}
 	public void setPantalla(Pantalla pantalla) {
-		this.pantalla = pantalla;
+		this.pantallaPuzzleNumeros = pantalla;
 	}
 	
 	public void setVisiblePantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
-//	private void crearPantalla() {
-//		pantallaImagen = new PantallaImagen();
-//	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,8 +57,8 @@ public class Menu {
 	private void initialize() {
 		frame = new JFrame();
 		pantallaImagen = new PantallaImagen();
-		pantalla = new Pantalla();
-		frame.setBounds(100, 100, 685, 549);
+		pantallaPuzzleNumeros = new Pantalla();
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -71,19 +71,19 @@ public class Menu {
 				
 			}
 		});
-		btnPantallaImagen.setBounds(151, 79, 223, 62);
+		btnPantallaImagen.setBounds(123, 68, 223, 62);
 		frame.getContentPane().add(btnPantallaImagen);
 		
 		JButton btnPantalla = new JButton("Juego numeros");
 		btnPantalla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				pantalla.mostrarPantalla(true);
+				pantallaPuzzleNumeros.setVisiblePantalla(true);
 				
 				frame.dispose();
 			}
 		});
-		btnPantalla.setBounds(152, 179, 238, 52);
+		btnPantalla.setBounds(123, 141, 223, 52);
 		frame.getContentPane().add(btnPantalla);
 		
 		JButton btnSalir = new JButton("Salir");
@@ -93,15 +93,13 @@ public class Menu {
 				frame.dispose();
 			}
 		});
-		btnSalir.setBounds(147, 281, 255, 112);
+		btnSalir.setBounds(106, 204, 255, 112);
 		frame.getContentPane().add(btnSalir);
 		
 		JLabel lblNewLabel = new JLabel("ROMPECABEZAS EL JUEGO");
-		lblNewLabel.setBounds(195, 44, 152, 14);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Snap ITC", Font.PLAIN, 20));
+		lblNewLabel.setBounds(65, 10, 341, 47);
 		frame.getContentPane().add(lblNewLabel);
-	}
-	public void setVisible(boolean b) {
-		// TODO Auto-generated method stub
-		frame.setVisible(true);
 	}
 }
