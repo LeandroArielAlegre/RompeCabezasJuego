@@ -1,46 +1,25 @@
 package FormControl;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 public class ControladorImagen {
 	private BufferedImage[][] MatrizDesordenada;
-//	private BufferedImage[][] MatrizOrdenada;
+	private BufferedImage[][] MatrizOrdenada;
 	private int filaVacio = 2; // Posición inicial del casillero vacío
 	private int colVacio = 2;
 	public ControladorImagen() {
-		
+
 	}
 	public  void imprimirGane() {
 		JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
 	}
 
-	public boolean gano(BufferedImage[][] MatrizDesordenada, BufferedImage[][] MatrizOrdenada) {
-	    
-	    for (int i = 0; i < MatrizDesordenada.length; i++) {
-	        for (int j = 0; j < MatrizDesordenada[i].length; j++) {
-	            if (!imagenIgual(MatrizDesordenada[i][j], MatrizOrdenada[i][j])) {
-	                return false;
-	            }
-	        }
-	    }
-	    
-	    return true;  // Si todas las imágenes coinciden gano
-	}
 
-    private boolean imagenIgual(BufferedImage img1, BufferedImage img2) {
-//        if (img1 == null || img2 == null) {
-//            return img1 == img2;
-//        }
-        for (int x = 0; x < img1.getWidth(); x++) {
-            for (int y = 0; y < img1.getHeight(); y++) {
-                if (img1.getRGB(x, y) != img2.getRGB(x, y)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+	
 	public void mezclarMatriz() 
 	{
 		Random rand = new Random();
@@ -49,97 +28,158 @@ public class ControladorImagen {
 		for (int cantidadMovimientosAleatorios = 0; cantidadMovimientosAleatorios < 1000; cantidadMovimientosAleatorios++) 
 		{
 			String movimiento = movimientos[rand.nextInt(movimientos.length)];
-			desplazarmeEnMatriz(movimiento, 0);
+			desplazarmeEnMatrizDesordenada(movimiento, 0);
 		}
 	}
-	 public BufferedImage[][] cortarImagen(BufferedImage imagen) {
-	        int filas = 3;
-	        int columnas = 3;
-	        int ancho = imagen.getWidth() / columnas;
-	        int alto = imagen.getHeight() / filas;
+	public BufferedImage[][] cortarImagen(BufferedImage imagen) {
+		int filas = 3;
+		int columnas = 3;
+		int ancho = imagen.getWidth() / columnas;
+		int alto = imagen.getHeight() / filas;
 
-	        this.MatrizDesordenada = new BufferedImage[filas][columnas];
-
-	        for (int i = 0; i < filas; i++) {
-	            for (int j = 0; j < columnas; j++) {
-	            	this.MatrizDesordenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
-	            }
-	        }
-	        return this.MatrizDesordenada;
-	    }
-	 	 	 
-	 public int desplazarmeEnMatriz(String tecla, int contador) {
-			int fila = this.filaVacio;
-			int columna = this.colVacio;
-			BufferedImage aux;
-			//Si se mueve a la derecha
-			if(tecla.equals("d")) {
-				if (columna < this.MatrizDesordenada[fila].length - 1) {
-					aux = this.MatrizDesordenada[fila][columna + 1];
-					MatrizDesordenada[fila][columna + 1] = this.MatrizDesordenada[fila][columna];
-					MatrizDesordenada[fila][columna] = aux;
-					this.colVacio++;
-					contador = incrementarContador(contador);
-					return contador;
-
-
-				}
+		this.MatrizDesordenada = new BufferedImage[filas][columnas];
+		//	        this.MatrizOrdenada = new BufferedImage[filas][columnas];
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++) {
+				this.MatrizDesordenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
+				//	            	this.MatrizOrdenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
 			}
+		}
+		return this.MatrizDesordenada;
+	}
+	public BufferedImage[][] cortarImagenConOrden(BufferedImage imagen) {
+		int filas = 3;
+		int columnas = 3;
+		int ancho = imagen.getWidth() / columnas;
+		int alto = imagen.getHeight() / filas;
 
 
-			//Si se mueve a la arriba
-			if(tecla.equals("w")) {
-				if (fila > 0) {
-					aux = this.MatrizDesordenada[fila - 1][columna];
-					this.MatrizDesordenada[fila - 1][columna] = this.MatrizDesordenada[fila][columna];
-					this.MatrizDesordenada[fila][columna] = aux;
-					this.filaVacio--;
-					contador = incrementarContador(contador);
-					return contador;
-
-				}
+		this.MatrizOrdenada = new BufferedImage[filas][columnas];
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++) {
+				//	            	this.MatrizDesordenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
+				this.MatrizOrdenada[i][j] = imagen.getSubimage(j * ancho, i * alto, ancho, alto);
 			}
-//a
+		}
+		return this.MatrizOrdenada;
+	}	 
+	public int desplazarmeEnMatrizDesordenada(String tecla, int contador) {
+		int fila = this.filaVacio;
+		int columna = this.colVacio;
+		BufferedImage aux;
+		//Si se mueve a la derecha
+		if(tecla.equals("d")) {
+			if (columna < this.MatrizDesordenada[fila].length - 1) {
+				aux = this.MatrizDesordenada[fila][columna + 1];
+				MatrizDesordenada[fila][columna + 1] = this.MatrizDesordenada[fila][columna];
+				MatrizDesordenada[fila][columna] = aux;
+				this.colVacio++;
+				contador = incrementarContador(contador);
+				return contador;
 
 
-			//Si se mueve a la abajo
-			if(tecla.equals("s")) {
-				if (fila < this.MatrizDesordenada.length - 1) {
-					aux = this.MatrizDesordenada[fila + 1][columna];
-					this.MatrizDesordenada[fila + 1][columna] = this.MatrizDesordenada[fila][columna];
-					this.MatrizDesordenada[fila][columna] = aux;
-					this.filaVacio++;
-					contador = incrementarContador(contador);
-
-					return contador;
-
-				}
 			}
+		}
+
+
+		//Si se mueve a la arriba
+		if(tecla.equals("w")) {
+			if (fila > 0) {
+				aux = this.MatrizDesordenada[fila - 1][columna];
+				this.MatrizDesordenada[fila - 1][columna] = this.MatrizDesordenada[fila][columna];
+				this.MatrizDesordenada[fila][columna] = aux;
+				this.filaVacio--;
+				contador = incrementarContador(contador);
+				return contador;
+
+			}
+		}
+		//a
+
+
+		//Si se mueve a la abajo
+		if(tecla.equals("s")) {
+			if (fila < this.MatrizDesordenada.length - 1) {
+				aux = this.MatrizDesordenada[fila + 1][columna];
+				this.MatrizDesordenada[fila + 1][columna] = this.MatrizDesordenada[fila][columna];
+				this.MatrizDesordenada[fila][columna] = aux;
+				this.filaVacio++;
+				contador = incrementarContador(contador);
+
+				return contador;
+
+			}
+		}
 
 
 
-			//Si se mueve a la izquierda
-			if(tecla.equals("a")) 
+		//Si se mueve a la izquierda
+		if(tecla.equals("a")) 
+		{
+			if (columna > 0) 
 			{
-				if (columna > 0) 
-				{
-					aux = this.MatrizDesordenada[fila][columna - 1];
-					this.MatrizDesordenada[fila][columna - 1] = this.MatrizDesordenada[fila][columna];
-					this.MatrizDesordenada[fila][columna] = aux;
-					this.colVacio--;
-					contador = incrementarContador(contador);
+				aux = this.MatrizDesordenada[fila][columna - 1];
+				this.MatrizDesordenada[fila][columna - 1] = this.MatrizDesordenada[fila][columna];
+				this.MatrizDesordenada[fila][columna] = aux;
+				this.colVacio--;
+				contador = incrementarContador(contador);
 
-					return contador;
-				}	
+				return contador;
+			}	
+		}
+		return contador;
+	}
+	private int incrementarContador(int contador) {
+		return ++contador;
+	}
+	public boolean sonIconosIguales(ImageIcon test, ImageIcon test2) {
+
+		BufferedImage a=iconoABufferedImage(test.getImage());
+		BufferedImage b=iconoABufferedImage(test2.getImage());
+		for (int pixelX=0;pixelX<a.getWidth();pixelX++) {
+			for (int pixelY=0;pixelY<a.getHeight();pixelY++) {
+				if (a.getRGB(pixelX, pixelY)!=b.getRGB(pixelX, pixelY))
+					return false;
 			}
-			return contador;
-		}
-	 private int incrementarContador(int contador) {
-			return ++contador;
 		}
 
-//	public BufferedImage[][] copiarMatriz(BufferedImage[][] matrizImagenOrdenada) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+		return true;
+	}
+	private boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) {
+			if(imagenA.getWidth()!=imagenB.getWidth()||imagenA.getHeight()!=imagenB.getHeight())
+				return false;
+		for (int pixelX = 0; pixelX < imagenA.getWidth(); pixelX++) {
+			for (int pixelY = 0; pixelY < imagenA.getHeight(); pixelY++) {
+				if (imagenA.getRGB(pixelX, pixelY) != imagenB.getRGB(pixelX, pixelY)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	public BufferedImage[][] getMatrizDesordenada() {
+	    return this.MatrizDesordenada;
+	}
+	public static BufferedImage iconoABufferedImage(Image imagen)
+	{
+		BufferedImage newImage = new BufferedImage(imagen.getWidth(null), imagen.getHeight(null), BufferedImage.TYPE_INT_ARGB);//TYPE_INT_ARGB Represents an image with 8-bit RGBA color components packed intointeger pixels.
+		Graphics2D hojaDeDibujoImagen = newImage.createGraphics();
+		hojaDeDibujoImagen.drawImage(imagen, 0, 0, null);
+		hojaDeDibujoImagen.dispose();
+		return newImage;
+	}
+	public boolean gano() {
+		for (int i = 0; i < MatrizDesordenada.length; i++) {
+			for (int j = 0; j < MatrizDesordenada[i].length; j++) {
+				if (!sonBufferedImagenIguales(MatrizDesordenada[i][j], MatrizOrdenada[i][j])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	//	public BufferedImage[][] copiarMatriz(BufferedImage[][] matrizImagenOrdenada) {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 }
