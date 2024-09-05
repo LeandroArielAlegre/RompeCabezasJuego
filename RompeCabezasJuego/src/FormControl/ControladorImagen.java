@@ -140,19 +140,7 @@ public class ControladorImagen {
 	{
 		return ++contador;
 	}
-	//	public boolean sonIconosIguales(ImageIcon test, ImageIcon test2) {
-	//
-	//		BufferedImage a=iconoABufferedImage(test.getImage());
-	//		BufferedImage b=iconoABufferedImage(test2.getImage());
-	//		for (int pixelX=0;pixelX<a.getWidth();pixelX++) {
-	//			for (int pixelY=0;pixelY<a.getHeight();pixelY++) {
-	//				if (a.getRGB(pixelX, pixelY)!=b.getRGB(pixelX, pixelY))
-	//					return false;
-	//			}
-	//		}
-	//
-	//		return true;
-	//	}
+	
 	private boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) 
 	{
 		if(imagenA.getWidth()!=imagenB.getWidth()||imagenA.getHeight()!=imagenB.getHeight())
@@ -173,15 +161,7 @@ public class ControladorImagen {
 	{
 		return this.MatrizDesordenada;
 	}
-	//	public static BufferedImage iconoABufferedImage(Image imagen)
-	//	{
-	//		BufferedImage newImage = new BufferedImage(imagen.getWidth(null), imagen.getHeight(null), BufferedImage.TYPE_INT_ARGB);//TYPE_INT_ARGB Represents an image with 8-bit RGBA color components packed intointeger pixels.
-	//		Graphics2D hojaDeDibujoImagen = newImage.createGraphics();
-	//		hojaDeDibujoImagen.drawImage(imagen, 0, 0, null);
-	//		hojaDeDibujoImagen.dispose();
-	//		return newImage;
-	//	}
-	
+
 	public boolean gano() 
 	{
 		for (int i = 0; i < MatrizDesordenada.length; i++) 

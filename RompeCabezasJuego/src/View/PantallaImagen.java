@@ -1,6 +1,7 @@
 
 package View;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 //import java.awt.Graphics2D;
 import java.awt.Image;
@@ -18,6 +19,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+import javax.swing.border.EtchedBorder;
 
 
 public class PantallaImagen {
@@ -28,66 +32,7 @@ public class PantallaImagen {
 	private JLabel [][] labels = new JLabel[3][3];
 	private int contador = 0;
 	
-	public void setRompecabezas(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
-	{
-		int xlabel = 190;
-		int ylabel = 70;
-		int auXlabel = 190;
-		//int auYlabel = 70;
-
-		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
-		{
-			for (int columna = 0; columna < MatrizImagenes[fila].length; columna++) 
-			{
-				if(labels[fila][columna] == null) 
-				{
-					labels[fila][columna] = new JLabel();
-					labels[fila][columna].setBounds(xlabel, ylabel, 100, 100);
-					frame.getContentPane().add(labels[fila][columna]);
-
-					ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-					
-					ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
-					labels[fila][columna].setIcon(img);
-//					ImageIcon imgCasillavacia = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
-				}
-				actualizarImagen(fila,columna);
-
-				xlabel+= 102;
-			}
-			xlabel= auXlabel;
-			ylabel += 102;
-
-		}
-
-	}
-
-	public void actualizarImagen(int fila, int columna) 
-	{
-		if (this.MatrizImagenes[fila][columna] != null && labels[fila][columna] != null) 
-		{
-			ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-			// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
-			ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
-			labels[fila][columna].setIcon(img); 
-
-		}
-	}
 	
-	public void actualizarMatrizMostradaPorPantalla(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
-	{
-		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
-		{
-			for (int columna = 0; columna < MatrizImagenes.length; columna++) 
-			{
-				ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
-				ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
-				labels[fila][columna].setIcon(img); 
-			}
-
-		}
-	}
 
 	/**
 	 * Create the application.
@@ -102,12 +47,14 @@ public class PantallaImagen {
 	 */
 	private void initialize() 
 	{
-		frame = new JFrame();
 		controladorImagen = new ControladorImagen();
+		
+		frame = new JFrame();
 		frame.setBounds(100, 100, 705, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		frame.getContentPane().setBackground(new Color(250, 250, 150));
+		
 		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
 		comboBox.setFocusable(false);
 		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg", "/resources/imagen4.png", "/resources/imagen5.png"};
@@ -170,7 +117,16 @@ public class PantallaImagen {
 		btnVolver.setBounds(10, 443, 89, 23);
 		frame.getContentPane().add(btnVolver);
 		
-		
+		//Label de contador, se inicializa oculto
+		JLabel lbContador = new JLabel("Contador de Movimentos: 0");
+		lbContador.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbContador.setHorizontalAlignment(SwingConstants.CENTER);
+		lbContador.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lbContador.setBackground(new Color(128, 255, 255));
+		lbContador.setOpaque(true);
+		lbContador.setVisible(false);
+		lbContador.setBounds(260, 11, 167, 30);
+		frame.getContentPane().add(lbContador);
 
 
 		// INPUTS
@@ -194,7 +150,11 @@ public class PantallaImagen {
 				
 				actualizarMatrizMostradaPorPantalla(controladorImagen.getMatrizDesordenada(), labels);
 				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon(null);
-		
+//				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
+//				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(128, 64, 0));;
+				lbContador.setVisible(true);
+				lbContador.setText("Contador de Movimentos:" + contador);
+				
 				comboBox.setVisible(false);
 				btnVolver.setVisible(false);
 				btnImagen.setVisible(false);
@@ -204,6 +164,8 @@ public class PantallaImagen {
 //					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon((Icon) imagenCasilleroVacio);
 		            controladorImagen.imprimirGane();
 		            // cuando el jugador gana...
+		            lbContador.setText("Contador de Movimentos: 0");
+		            lbContador.setVisible(false);
 		            btnVolver.setVisible(true);
 		        }
 			}
@@ -214,14 +176,12 @@ public class PantallaImagen {
 			}
 		});
 	}
-	/**
-	 * Launch the application.
-	 */
 
 	public void setVisiblePantalla(boolean condicion) 
 	{
 		frame.setVisible(condicion);
 	}
+	
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -239,5 +199,65 @@ public class PantallaImagen {
 			}
 		});
 	}
+	
+	public void setRompecabezas(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
+	{
+		int xlabel = 190;
+		int ylabel = 70;
+		int auXlabel = 190;
+		//int auYlabel = 70;
 
+		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
+		{
+			for (int columna = 0; columna < MatrizImagenes[fila].length; columna++) 
+			{
+				if(labels[fila][columna] == null) 
+				{
+					labels[fila][columna] = new JLabel();
+					labels[fila][columna].setBounds(xlabel, ylabel, 100, 100);
+					frame.getContentPane().add(labels[fila][columna]);
+
+					ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+					
+					ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
+					labels[fila][columna].setIcon(img);
+//					ImageIcon imgCasillavacia = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
+				}
+				actualizarImagen(fila,columna);
+
+				xlabel+= 102;
+			}
+			xlabel= auXlabel;
+			ylabel += 102;
+
+		}
+
+	}
+
+	public void actualizarImagen(int fila, int columna) 
+	{
+		if (this.MatrizImagenes[fila][columna] != null && labels[fila][columna] != null) 
+		{
+			ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+			// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
+			ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
+			labels[fila][columna].setIcon(img); 
+
+		}
+	}
+	
+	public void actualizarMatrizMostradaPorPantalla(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
+	{
+		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
+		{
+			for (int columna = 0; columna < MatrizImagenes.length; columna++) 
+			{
+				ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
+				ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
+				labels[fila][columna].setIcon(img); 
+			}
+
+		}
+	}
 }

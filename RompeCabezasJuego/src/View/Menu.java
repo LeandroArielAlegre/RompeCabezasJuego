@@ -1,6 +1,7 @@
 
 package View;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -61,9 +62,9 @@ public class Menu {
 		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JButton btnPantallaImagen = new JButton("Juego Imagen");
-		btnPantallaImagen.addActionListener(new ActionListener() {
+		frame.getContentPane().setBackground(Color.RED);
+		JButton botonPuzzleImagen = new JButton("Juego Imagen");
+		botonPuzzleImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaImagen.setVisiblePantalla(true);
@@ -71,11 +72,11 @@ public class Menu {
 				
 			}
 		});
-		btnPantallaImagen.setBounds(123, 68, 223, 62);
-		frame.getContentPane().add(btnPantallaImagen);
+		botonPuzzleImagen.setBounds(123, 68, 223, 62);
+		frame.getContentPane().add(botonPuzzleImagen);
 		
-		JButton btnPantalla = new JButton("Juego numeros");
-		btnPantalla.addActionListener(new ActionListener() {
+		JButton botonPuzzleNumeros = new JButton("Juego numeros");
+		botonPuzzleNumeros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaPuzzleNumeros.setVisiblePantalla(true);
@@ -83,8 +84,8 @@ public class Menu {
 				frame.dispose();
 			}
 		});
-		btnPantalla.setBounds(123, 141, 223, 52);
-		frame.getContentPane().add(btnPantalla);
+		botonPuzzleNumeros.setBounds(123, 141, 223, 52);
+		frame.getContentPane().add(botonPuzzleNumeros);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
