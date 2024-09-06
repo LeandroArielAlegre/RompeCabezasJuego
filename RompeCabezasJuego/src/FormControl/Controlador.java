@@ -1,6 +1,5 @@
 package FormControl;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 //import java.util.Collections;
 import java.util.List;
@@ -49,7 +48,7 @@ public class Controlador {
 				}
 			}
 		}
-//		mezclarMatriz();
+		mezclarMatriz();
 	}
 
 	public void imprimirGane() {

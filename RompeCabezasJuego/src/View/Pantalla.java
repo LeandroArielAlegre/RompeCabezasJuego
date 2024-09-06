@@ -22,20 +22,11 @@ public class Pantalla {
 	private JLabel matrizDeNumerosVisible;
 	private JLabel contadorMovimientos;
 	private int contador = 0;
-//	private String [] teclado =  {"a","d","w","s"};
 	private JButton botonVolverAMenu;
-//	JButton btnVolver;
-//	private Menu menu;
 
 	public void mostrarPantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
-	
-//	public void setMenu(Menu m1) {
-//		this.menu = m1;
-//	}
-	
-	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -78,20 +69,6 @@ public class Pantalla {
 		botonVolverAMenu.setBounds(0, 238, 89, 23);
 		panelPantallaJuego.add(botonVolverAMenu);
 		
-//		btnVolver = new JButton("Atras");
-//		btnVolver.setFocusable(false);
-//		btnVolver.addActionListener(new ActionListener() 
-//		{
-//			public void actionPerformed(ActionEvent e) {
-//				Menu m1 = new Menu();
-//				m1.setVisiblePantalla(true);
-//				frame.setVisible(false);
-//				frame.dispose();
-//			}
-//		});
-//		btnVolver.setBounds(10, 443, 89, 23);
-//		frame.getContentPane().add(btnVolver);
-		
 		matrizDeNumerosVisible = new JLabel("");
 		matrizDeNumerosVisible.setHorizontalAlignment(SwingConstants.CENTER);
 		matrizDeNumerosVisible.setOpaque(true);
@@ -129,7 +106,7 @@ public class Pantalla {
 			public void keyPressed(KeyEvent e) {
 				char teclaPresionada = e.getKeyChar();
 				String caracterTeclaPresionada =String.valueOf(teclaPresionada);
-//				if(esTecla(teclaS1)) {
+
 					botonVolverAMenu.setVisible(false);
 					contador = controlador.desplazarmeEnMatriz(caracterTeclaPresionada, contador);
                     matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
@@ -137,14 +114,12 @@ public class Pantalla {
                     contadorMovimientos.setText("Contador: " +contadorVisible);
                     if (controlador.gano()) 
     				{
-//    					Image imagenCasilleroVacio= MatrizImagenes[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].getScaledInstance(tecla, tecla, tecla);
-//    					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon((Icon) imagenCasilleroVacio);
-    		            controlador.imprimirGane();
-    		            botonVolverAMenu.setVisible(true);
     		            // cuando el jugador gana...
-//    		            btnVolver.setVisible(true);
+                    	controlador.imprimirGane();
+    		            botonVolverAMenu.setVisible(true);
+    		            
     		        }
-//				}
+
 				
 			
 			}
@@ -164,10 +139,9 @@ public class Pantalla {
 				Menu menu = new Menu();
 				
 				menu.setVisiblePantalla(true);
+				
 				frame.setVisible(false);
-				//frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				frame.dispose();
-				//menu.setVisiblePantalla(true);
 			}
 		}); 
 		
@@ -182,12 +156,4 @@ public class Pantalla {
 		frame.setVisible(condicion);
 	}
 	
-//	public boolean esTecla(String tecla) {
-//		for (int i = 0; i< this.teclado.length; i++) {
-//			if(tecla.equals(this.teclado[i]));
-//				return true;
-//			
-//		}
-//		return false;
-//	}
 }
