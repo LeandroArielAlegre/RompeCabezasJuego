@@ -1,8 +1,6 @@
 package FormControl;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-//import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
@@ -51,52 +49,52 @@ public class Controlador {
 		}
 		mezclarMatriz();
 	}
-	
-	public void proximoMovimiento() {
-		
-		//caso c+1
-		int auxFMenos = filaCasillaVacia -1;
-		int auxFMas = filaCasillaVacia +1;
-		int auxCMas = columnaCasillaVacia +1;
-		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
-				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
-			//Cual de ambos es mayor:
-			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
-				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
-				System.out.println("Es menor a mi columna derecha: " + auxFMas + " " + columnaCasillaVacia);
-				System.out.println("Muevete hacia abajo");
-			}
-		}
-		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
-				existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
-			//Cual de ambos es mayor:
-			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
-				//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
-				System.out.println("Es menor a mi columna derecha: " + auxFMenos + " " + columnaCasillaVacia);
-				System.out.println("Muevete hacia arriba");
-			}
-		}
-	}
-	
-	
-	private boolean existePosicionEnMatriz(int fila, int columna) {
-        if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
-            return true;
 
-        }
-        return false;
-    }
+	//	public void proximoMovimiento() {
+	//		
+	//		//caso c+1
+	//		int auxFMenos = filaCasillaVacia -1;
+	//		int auxFMas = filaCasillaVacia +1;
+	//		int auxCMas = columnaCasillaVacia +1;
+	//		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+	//				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
+	//			//Cual de ambos es mayor:
+	//			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
+	//				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
+	//				System.out.println("Es menor a mi columna derecha: " + auxFMas + " " + columnaCasillaVacia);
+	//				System.out.println("Muevete hacia abajo");
+	//			}
+	//		}
+	//		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+	//				existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
+	//			//Cual de ambos es mayor:
+	//			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
+	//				//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
+	//				System.out.println("Es menor a mi columna derecha: " + auxFMenos + " " + columnaCasillaVacia);
+	//				System.out.println("Muevete hacia arriba");
+	//			}
+	//		}
+	//	}
+	//	
 
-	public void imprimirGane() {
+	//	private boolean existePosicionEnMatriz(int fila, int columna) {
+	//        if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
+	//            return true;
+	//
+	//        }
+	//        return false;
+	//    }
+
+	public void imprimirGane() 
+	{
 		JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
 	}
 	//
-	public int desplazarmeEnMatriz(String tecla, int contador) {
+	public int desplazarmeEnMatriz(String tecla, int contador) 
+	{
 		int fila = this.filaCasillaVacia;
 		int columna = this.columnaCasillaVacia;
 		int auxiliarIntercambio=0;
-
-
 
 		if(tecla.equals("w")) {
 			if (fila > 0) {
@@ -111,28 +109,24 @@ public class Controlador {
 			if (columna > 0) 
 			{
 				moverIzquierda(fila,columna,auxiliarIntercambio);
-
 				contador = incrementarContador(contador);
-
 				return contador;
 			}	
 		}
 		if(tecla.equals("s")) {
-			if (fila < matriz.length - 1) {
+			if (fila < matriz.length - 1) 
+			{
 				moverAbajo(fila,columna,auxiliarIntercambio);
-
 				contador = incrementarContador(contador);
-
 				return contador;
 
 			}
 		}
 
-
-
-
-		if(tecla.equals("d")) {
-			if (columna < matriz[fila].length - 1) {
+		if(tecla.equals("d")) 
+		{
+			if (columna < matriz[fila].length - 1) 
+			{
 				moverDerecha(fila,columna,auxiliarIntercambio);
 				contador = incrementarContador(contador);
 				return contador;
@@ -142,15 +136,16 @@ public class Controlador {
 	}
 
 
-	private void moverIzquierda(int fila, int columna, int auxiliarIntercambio) {
-
+	private void moverIzquierda(int fila, int columna, int auxiliarIntercambio) 
+	{
 		auxiliarIntercambio = matriz[fila][columna - 1];
 		matriz[fila][columna - 1] = matriz[fila][columna];
 		matriz[fila][columna] = auxiliarIntercambio;
 		this.columnaCasillaVacia--;
 	}
 
-	private void moverAbajo(int fila, int columna, int auxiliarIntercambio) {
+	private void moverAbajo(int fila, int columna, int auxiliarIntercambio) 
+	{
 
 		auxiliarIntercambio = matriz[fila + 1][columna];
 		matriz[fila + 1][columna] = matriz[fila][columna];
@@ -158,29 +153,30 @@ public class Controlador {
 		this.filaCasillaVacia++;
 	}
 
-	private void moverArriba(int fila, int columna, int auxiliarIntercambio) {
-
+	private void moverArriba(int fila, int columna, int auxiliarIntercambio) 
+	{
 		auxiliarIntercambio = matriz[fila - 1][columna];
 		matriz[fila - 1][columna] = matriz[fila][columna];
 		matriz[fila][columna] = auxiliarIntercambio;
 		this.filaCasillaVacia--;
 	}
 
-	private void moverDerecha(int fila, int columna, int auxiliarIntercambio) {
-
+	private void moverDerecha(int fila, int columna, int auxiliarIntercambio) 
+	{
 		auxiliarIntercambio = matriz[fila][columna + 1];
 		matriz[fila][columna + 1] = matriz[fila][columna];
 		matriz[fila][columna] = auxiliarIntercambio;
 		this.columnaCasillaVacia++;
-
-
 	}
 
-	
-	public String imprimirMatriz() {
+
+	public String imprimirMatriz() 
+	{
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < this.matriz.length; i++) {
-			for (int j = 0; j < this.matriz[i].length; j++) {
+		for (int i = 0; i < this.matriz.length; i++) 
+		{
+			for (int j = 0; j < this.matriz[i].length; j++) 
+			{
 				sb.append(this.matriz[i][j]).append(" ");
 			}
 			sb.append("\n"); // Salto de línea
@@ -188,8 +184,9 @@ public class Controlador {
 		return sb.toString();
 	}
 
-	
-	public int[][] getMatriz() {
+
+	public int[][] getMatriz() 
+	{
 		return this.matriz;
 	}
 	public boolean gano() 
@@ -207,19 +204,7 @@ public class Controlador {
 		return true;
 	}
 	private boolean sonEnterosIguales(int i, int  j) {
-		
-			
-//			for (int fila = 0; fila < i.length; fila++) 
-//			{
-//				for (int columna = 0; columna < i.length; columna++) 
-//				{
-//					if (i[fila][columna] != j[fila][columna]) 
-//					{
-//						return false;
-//					}
-//				}
-//			}
-			return i==j?true:false;
+		return i==j?true:false;
 	}
 
 	private int incrementarContador(int contador) {

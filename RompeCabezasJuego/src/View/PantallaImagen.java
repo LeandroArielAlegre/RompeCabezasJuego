@@ -3,14 +3,12 @@ package View;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-//import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import FormControl.ControladorImagen;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,17 +21,13 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import javax.swing.border.EtchedBorder;
 
-
 public class PantallaImagen {
 	private ControladorImagen controladorImagen;
 	private JFrame frame;
 	private BufferedImage[][] MatrizImagenes;
-	private BufferedImage[][] MatrizImagenesOrdenadas;
 	private JLabel [][] labels = new JLabel[3][3];
 	private int contador = 0;
 	
-	
-
 	/**
 	 * Create the application.
 	 */
@@ -71,23 +65,19 @@ public class PantallaImagen {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-
 				int index = comboBox.getSelectedIndex();
 				try 
 				{
 					//Leo la imagen dentro del proyecto
 					BufferedImage imagenOriginal = ImageIO.read(PantallaImagen.class.getResourceAsStream(rutaImagen[index]));
 					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
-					MatrizImagenes = controladorImagen.cortarImagen(imagenOriginal,"a desordenar");
-					MatrizImagenesOrdenadas = controladorImagen.cortarImagen(imagenOriginal,"ordenada");
+					MatrizImagenes = controladorImagen.cortarImagen(imagenOriginal,"desordenada");
+					controladorImagen.cortarImagen(imagenOriginal,"ordenada");
 					controladorImagen.mezclarMatriz();
 					
 					setRompecabezas(MatrizImagenes, labels);
 				
-					//test imprimir por pantalla
-					ImageIcon icono = new ImageIcon(imagenOriginal);
-					ImageIcon iconoImagenCompleta = new ImageIcon(icono.getImage().getScaledInstance(labelImagenCompleta.getWidth(), labelImagenCompleta.getHeight(), Image.SCALE_SMOOTH));
-					labelImagenCompleta.setIcon(iconoImagenCompleta);
+					mostrarImagenCompleta(labelImagenCompleta, imagenOriginal);
 					
 				} catch (IOException e1) 
 				{
@@ -95,7 +85,12 @@ public class PantallaImagen {
 					e1.printStackTrace();
 
 				}
+			}
 
+			private void mostrarImagenCompleta(JLabel labelImagenCompleta, BufferedImage imagenOriginal) {
+				ImageIcon icono = new ImageIcon(imagenOriginal);
+				ImageIcon iconoImagenCompleta = new ImageIcon(icono.getImage().getScaledInstance(labelImagenCompleta.getWidth(), labelImagenCompleta.getHeight(), Image.SCALE_SMOOTH));
+				labelImagenCompleta.setIcon(iconoImagenCompleta);
 			}
 
 			
@@ -169,21 +164,21 @@ public class PantallaImagen {
 				contador = controladorImagen.desplazarmeEnMatriz(teclaS1, contador);
 				
 				actualizarMatrizMostradaPorPantalla(controladorImagen.getMatrizDesordenada(), labels);
+				
 				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon(null);
-//				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
-//				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(128, 64, 0));;
+				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
+				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(160,70,80));
+				
 				lbContador.setVisible(true);
-				lbContador.setText("Contador de Movimentos:" + contador);
+				lbContador.setText("Contador de Movimentos:" + contador);				
 				
 				comboBox.setVisible(false);
 				btnVolver.setVisible(false);
 				btnImagen.setVisible(false);
+				
 				if (controladorImagen.gano()) 
 				{
-//					Image imagenCasilleroVacio= MatrizImagenes[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].getScaledInstance(tecla, tecla, tecla);
-//					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon((Icon) imagenCasilleroVacio);
 		            controladorImagen.imprimirGane();
-		            // cuando el jugador gana...
 		            lbContador.setText("Contador de Movimentos: 0");
 		            lbContador.setVisible(false);
 		            btnVolver.setVisible(true);
@@ -241,7 +236,6 @@ public class PantallaImagen {
 					
 					ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 					labels[fila][columna].setIcon(img);
-//					ImageIcon imgCasillavacia = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 				}
 				actualizarImagen(fila,columna);
 

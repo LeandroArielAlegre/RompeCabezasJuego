@@ -18,7 +18,6 @@ public class Menu {
 	private PantallaImagen pantallaImagen;
 	private Pantalla pantallaPuzzleNumeros;
 	
-
 	/**
 	 * Launch the application.
 	 */
