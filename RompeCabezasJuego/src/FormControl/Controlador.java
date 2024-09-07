@@ -1,5 +1,6 @@
 package FormControl;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 //import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.swing.JOptionPane;
 public class Controlador {
 
 	private int[][] matriz = new int[3][3];
+	private int[][] matrizRespuesta = new int[3][3];
 	private int filaCasillaVacia = 2; // Posición inicial del casillero vacío
 	private int columnaCasillaVacia = 2;
 	private int numeroRepresentativoDeVacio=0;
@@ -16,21 +18,6 @@ public class Controlador {
 		inicializarMatriz();
 	}
 
-	// Método para inicializar la matriz con números únicos del 1 al 9
-	//    private void inicializarMatriz() {
-	//        List<Integer> numeros = new ArrayList<>();
-	//        for (int i = 1; i <= 9; i++) {
-	//            numeros.add(i);
-	//        }
-	//        Collections.shuffle(numeros);
-	//
-	//        int index = 0;
-	//        for (int i = 0; i < matriz.length; i++) {
-	//            for (int j = 0; j < matriz[i].length; j++) {
-	//                matriz[i][j] = numeros.get(index++);
-	//            }
-	//        }
-	//    }
 	private void mezclarMatriz() 
 	{
 		Random rand = new Random();
@@ -51,12 +38,11 @@ public class Controlador {
 		}
 		numerosDeMatriz.add(numeroRepresentativoDeVacio);
 
-		//Collections.shuffle(numeros);//mesclar numeros (Randomly permutes the specified list using a default source ofrandomness)
-
 		int posicionEnMatriz = 0;
 		for (int fila = 0; fila < matriz.length; fila++) {
 			for (int columna = 0; columna < matriz[fila].length; columna++) {
 				matriz[fila][columna] = numerosDeMatriz.get(posicionEnMatriz++);
+				matrizRespuesta[fila][columna] = matriz[fila][columna];
 				if (matriz[fila][columna] == 0) {
 					this.filaCasillaVacia = fila;
 					this.columnaCasillaVacia = columna;
@@ -65,45 +51,43 @@ public class Controlador {
 		}
 		mezclarMatriz();
 	}
-	//QUE PASO?
 	
-	//	private void mesclarMatriz(List<Integer> numeros) {
-	//
-	////		int fila = this.filaVacio;
-	////		int columna = this.colVacio;
-	////		int aux;
-	//		for (int movimientos=0;movimientos<=1000;movimientos++) {
-	//			Random rand= new Random();
-	//			int auxNumero= rand.nextInt() * 4 + 0;//
-	////			rand.nextInt(3);
-	//			if(auxNumero==0) 
-	//			{
-	//			desplazarmeEnMatriz("w", 0);
-	//			}else if(auxNumero==1) 
-	//			{
-	//			desplazarmeEnMatriz("a", 0);
-	//			}else if(auxNumero==2) 
-	//			{
-	//			desplazarmeEnMatriz("s", 0);
-	//			}else 
-	//			{
-	//			desplazarmeEnMatriz("d", 0);				
-	//			}
-	//		}
-	////			rand.
-	//		}
+	public void proximoMovimiento() {
+		
+		//caso c+1
+		int auxFMenos = filaCasillaVacia -1;
+		int auxFMas = filaCasillaVacia +1;
+		int auxCMas = columnaCasillaVacia +1;
+		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
+			//Cual de ambos es mayor:
+			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
+				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
+				System.out.println("Es menor a mi columna derecha: " + auxFMas + " " + columnaCasillaVacia);
+				System.out.println("Muevete hacia abajo");
+			}
+		}
+		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+				existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
+			//Cual de ambos es mayor:
+			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
+				//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
+				System.out.println("Es menor a mi columna derecha: " + auxFMenos + " " + columnaCasillaVacia);
+				System.out.println("Muevete hacia arriba");
+			}
+		}
+	}
+	
+	
+	private boolean existePosicionEnMatriz(int fila, int columna) {
+        if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
+            return true;
 
+        }
+        return false;
+    }
 
-	//	private void mezclarMatriz() {
-	//	    Random rand = new Random();
-	//	    String[] movimientos = {"w", "a", "s", "d"};
-	//	    
-	//	    for (int i = 0; i < 1000; i++) {
-	//	        String movimiento = movimientos[rand.nextInt(movimientos.length)];
-	//	        desplazarmeEnMatriz(movimiento, 0);
-	//	    }
-	//	}
-	public static void imprimirGane() {
+	public void imprimirGane() {
 		JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
 	}
 	//
@@ -192,33 +176,7 @@ public class Controlador {
 
 	}
 
-	//	private void desplazarmeEnMatriz(String direccion, int animacion) {
-	//	    int nuevaFila = filaVacio;
-	//	    int nuevaColumna = colVacio;
-	//	    
-	//	    switch (direccion) {
-	//	        case "w": nuevaFila--; break;
-	//	        case "s": nuevaFila++; break;
-	//	        case "a": nuevaColumna--; break;
-	//	        case "d": nuevaColumna++; break;
-	//	    }
-	//	    
-	//	    if (esMovimientoValido(nuevaFila, nuevaColumna)) {
-	//	        intercambiarCasillas(filaVacio, colVacio, nuevaFila, nuevaColumna);
-	//	        filaVacio = nuevaFila;
-	//	        colVacio = nuevaColumna;
-	//	    }
-	//	}
-
-	//	private boolean esMovimientoValido(int fila, int columna) {
-	//	    return fila >= 0 && fila < 4 && columna >= 0 && columna < 4;
-	//	}
-
-	//	private void intercambiarCasillas(int fila1, int col1, int fila2, int col2) {
-	//	    int aux = matriz[fila1][col1];
-	//	    matriz[fila1][col1] = matriz[fila2][col2];
-	//	    matriz[fila2][col2] = aux;
-	//	}
+	
 	public String imprimirMatriz() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < this.matriz.length; i++) {
@@ -230,19 +188,38 @@ public class Controlador {
 		return sb.toString();
 	}
 
-	//    private int[] buscarCasilleroVacio() {
-	//        for (int i = 0; i < matriz.length; i++) {
-	//            for (int j = 0; j < matriz[i].length; j++) {
-	//                if (matriz[i][j] == 0) {
-	//                    return new int[]{i, j};
-	//                }
-	//            }
-	//        }
-	//        return null; // Si no se encuentra un casillero vacío
-	//    }
-
+	
 	public int[][] getMatriz() {
 		return this.matriz;
+	}
+	public boolean gano() 
+	{
+		for (int i = 0; i < matriz.length; i++) 
+		{
+			for (int j = 0; j < matriz[i].length; j++) 
+			{
+				if (!sonEnterosIguales(matriz[i][j], matrizRespuesta[i][j])) 
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	private boolean sonEnterosIguales(int i, int  j) {
+		
+			
+//			for (int fila = 0; fila < i.length; fila++) 
+//			{
+//				for (int columna = 0; columna < i.length; columna++) 
+//				{
+//					if (i[fila][columna] != j[fila][columna]) 
+//					{
+//						return false;
+//					}
+//				}
+//			}
+			return i==j?true:false;
 	}
 
 	private int incrementarContador(int contador) {

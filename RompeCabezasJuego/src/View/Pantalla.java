@@ -24,6 +24,8 @@ public class Pantalla {
 	private int contador = 0;
 //	private String [] teclado =  {"a","d","w","s"};
 	private JButton botonVolverAMenu;
+	private JButton botonAyuda;
+//	JButton btnVolver;
 //	private Menu menu;
 
 	public void mostrarPantalla(boolean condicion) {
@@ -70,13 +72,38 @@ public class Pantalla {
 		frame.getContentPane().add(panelPantallaJuego, BorderLayout.CENTER);
 		panelPantallaJuego.setLayout(null);
 		
+		
 		//boton
 		//botones
 		botonVolverAMenu = new JButton("Atras");
 		botonVolverAMenu.setFocusable(false);
 		botonVolverAMenu.setBounds(0, 238, 89, 23);
 		panelPantallaJuego.add(botonVolverAMenu);
-		//
+		
+		botonAyuda = new JButton("Ayuda");
+		botonAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.proximoMovimiento();
+			}
+		});
+		botonAyuda.setFocusable(false);
+		botonAyuda.setBounds(1, 1, 89, 23);
+		panelPantallaJuego.add(botonAyuda);
+		
+//		btnVolver = new JButton("Atras");
+//		btnVolver.setFocusable(false);
+//		btnVolver.addActionListener(new ActionListener() 
+//		{
+//			public void actionPerformed(ActionEvent e) {
+//				Menu m1 = new Menu();
+//				m1.setVisiblePantalla(true);
+//				frame.setVisible(false);
+//				frame.dispose();
+//			}
+//		});
+//		btnVolver.setBounds(10, 443, 89, 23);
+//		frame.getContentPane().add(btnVolver);
+		
 		matrizDeNumerosVisible = new JLabel("");
 		matrizDeNumerosVisible.setHorizontalAlignment(SwingConstants.CENTER);
 		matrizDeNumerosVisible.setOpaque(true);
@@ -115,11 +142,21 @@ public class Pantalla {
 				char teclaPresionada = e.getKeyChar();
 				String caracterTeclaPresionada =String.valueOf(teclaPresionada);
 //				if(esTecla(teclaS1)) {
+					botonVolverAMenu.setVisible(false);
 					contador = controlador.desplazarmeEnMatriz(caracterTeclaPresionada, contador);
                     matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
                     String contadorVisible = String.valueOf(contador);
                     contadorMovimientos.setText("Contador: " +contadorVisible);
-					
+                    
+                    if (controlador.gano()) 
+    				{
+//    					Image imagenCasilleroVacio= MatrizImagenes[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].getScaledInstance(tecla, tecla, tecla);
+//    					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon((Icon) imagenCasilleroVacio);
+    		            controlador.imprimirGane();
+    		            botonVolverAMenu.setVisible(true);
+    		            // cuando el jugador gana...
+//    		            btnVolver.setVisible(true);
+    		        }
 //				}
 				
 			

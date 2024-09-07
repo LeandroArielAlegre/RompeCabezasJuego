@@ -1,7 +1,9 @@
 package FormControl;
+import java.awt.Point;
 //import java.awt.Graphics2D;
 //import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 
 //import javax.swing.ImageIcon;
@@ -11,6 +13,9 @@ public class ControladorImagen {
 	private BufferedImage[][] MatrizOrdenada;
 	private int filaVacio = 2; // Posición inicial del casillero vacío
 	private int colVacio = 2;
+	
+	
+	
 	
 	public ControladorImagen() {
 
@@ -64,6 +69,170 @@ public class ControladorImagen {
 		}
 		return null;
 	}
+	
+	public String  proximoMovimiento() {
+		
+		   StringBuilder sb = new StringBuilder();
+		   sb.append("Te recomiendo el siguiente movimiento: ").append(" ").append("\n");
+				int auxFMenos = filaVacio -1;
+				int auxFMas = filaVacio +1;
+				int auxCMas = colVacio +1;
+				int auxCMenos = colVacio -1;
+				
+				BufferedImage auxImagenOrdenada;
+				BufferedImage auxImagenDesordenada;
+				
+				
+				Point indicePosicionVacio;
+				
+				//caso c+1
+				if(existePosicionEnMatriz(filaVacio ,auxCMas)) {
+					//this.MatrizDesordenada[filaVacio][auxCMas]
+					
+					//Matriz ordenada
+					auxImagenOrdenada = this.MatrizOrdenada[filaVacio][auxCMas];
+					auxImagenDesordenada = this.MatrizDesordenada[filaVacio][auxCMas];
+					
+					indicePosicionVacio = new Point(filaVacio, colVacio);
+					
+					
+					if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada ) ) {
+						
+						Point posicionImagen =devolverPosicionEnMatriz(auxImagenDesordenada);
+						//Proceda
+						if(posicionImagen != null && posicionImagen.equals(indicePosicionVacio)) {
+							
+							
+							sb.append("Movete a la derecha").append(" ").append("\n");
+							
+						}
+						
+							
+							//Listo mi vacio es igual a como deberia ser mi derecha
+							//me muevo a la derecha	
+							
+						
+						
+					}
+					
+					
+				}
+				
+				//caso c-1
+				if(existePosicionEnMatriz(filaVacio, auxCMenos)) {
+					//Matriz ordenada
+					auxImagenOrdenada = this.MatrizOrdenada[filaVacio][auxCMenos];
+					auxImagenDesordenada = this.MatrizDesordenada[filaVacio][auxCMenos];
+					
+					indicePosicionVacio = new Point(filaVacio, colVacio);
+					
+					
+					if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada ) ) {
+						
+						Point posicionImagen =devolverPosicionEnMatriz(auxImagenDesordenada);
+						//Proceda
+						if(posicionImagen != null && posicionImagen.equals(indicePosicionVacio)) {
+							
+							
+							sb.append("Movete a la Izquierda").append(" ").append("\n");
+						}
+						
+							
+							//Listo mi vacio es igual a como deberia ser mi izquierda
+							//me muevo a la izquierda	
+							
+						
+						
+					}
+					
+					
+				}
+				
+				//caso f+1
+				if(existePosicionEnMatriz(auxFMas , colVacio)) {
+					//Matriz ordenada
+					auxImagenOrdenada = this.MatrizOrdenada[auxFMas][colVacio];
+					auxImagenDesordenada = this.MatrizDesordenada[auxFMas][colVacio];
+					
+					indicePosicionVacio = new Point(filaVacio, colVacio);
+					
+					
+					if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada ) ) {
+						
+						Point posicionImagen =devolverPosicionEnMatriz(auxImagenDesordenada);
+						//Proceda
+						if(posicionImagen != null && posicionImagen.equals(indicePosicionVacio)) {
+							
+							
+							sb.append("Movete a la Abajo").append(" ").append("\n");
+						}
+						
+							
+							//Listo mi vacio es igual a como deberia ser mi abajo
+							//me muevo a la abajo	
+							
+						
+						
+					}
+				}
+				
+				//caso f-1
+				if(existePosicionEnMatriz(auxFMenos, colVacio)) {
+					//Matriz ordenada
+					auxImagenOrdenada = this.MatrizOrdenada[auxFMenos][colVacio];
+					auxImagenDesordenada = this.MatrizDesordenada[auxFMenos][colVacio];
+					
+					indicePosicionVacio = new Point(filaVacio, colVacio);
+					
+					
+					if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada ) ) {
+						
+						Point posicionImagen =devolverPosicionEnMatriz(auxImagenDesordenada);
+						//Proceda
+						if(posicionImagen != null && posicionImagen.equals(indicePosicionVacio)) {
+							
+							
+							sb.append("Movete a la Arriba").append(" ").append("\n");
+						}
+						
+							
+							//Listo mi vacio es igual a como deberia ser mi Arriba
+							//me muevo a la Arriba	
+							
+						
+						
+					}
+				}
+				return sb.toString();
+				
+				
+		
+	}
+
+
+	private Point devolverPosicionEnMatriz(BufferedImage imagenA) {
+		Point indicePosicion;
+		for (int f = 0; f < MatrizOrdenada.length; f++) {
+			for (int c = 0; c < MatrizOrdenada[f].length; c++) {
+				if(sonBufferedImagenIguales(this.MatrizOrdenada[f][c], imagenA)) {
+					indicePosicion = new Point(f,c);
+					return indicePosicion;
+				}
+			}
+		}
+		return null;
+	
+	}
+	
+	
+	private boolean existePosicionEnMatriz(int fila, int columna) {
+        if((columna  <= this.MatrizDesordenada.length - 1 && columna  >= 0) && (fila <= this.MatrizDesordenada.length - 1 && fila >= 0) ) {
+            return true;
+
+        }
+        return false;
+    }
+	
 
 	public int desplazarmeEnMatriz(String tecla, int contador) 
 	{
@@ -140,19 +309,7 @@ public class ControladorImagen {
 	{
 		return ++contador;
 	}
-	//	public boolean sonIconosIguales(ImageIcon test, ImageIcon test2) {
-	//
-	//		BufferedImage a=iconoABufferedImage(test.getImage());
-	//		BufferedImage b=iconoABufferedImage(test2.getImage());
-	//		for (int pixelX=0;pixelX<a.getWidth();pixelX++) {
-	//			for (int pixelY=0;pixelY<a.getHeight();pixelY++) {
-	//				if (a.getRGB(pixelX, pixelY)!=b.getRGB(pixelX, pixelY))
-	//					return false;
-	//			}
-	//		}
-	//
-	//		return true;
-	//	}
+	
 	private boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) 
 	{
 		if(imagenA.getWidth()!=imagenB.getWidth()||imagenA.getHeight()!=imagenB.getHeight())
@@ -173,15 +330,7 @@ public class ControladorImagen {
 	{
 		return this.MatrizDesordenada;
 	}
-	//	public static BufferedImage iconoABufferedImage(Image imagen)
-	//	{
-	//		BufferedImage newImage = new BufferedImage(imagen.getWidth(null), imagen.getHeight(null), BufferedImage.TYPE_INT_ARGB);//TYPE_INT_ARGB Represents an image with 8-bit RGBA color components packed intointeger pixels.
-	//		Graphics2D hojaDeDibujoImagen = newImage.createGraphics();
-	//		hojaDeDibujoImagen.drawImage(imagen, 0, 0, null);
-	//		hojaDeDibujoImagen.dispose();
-	//		return newImage;
-	//	}
-	
+
 	public boolean gano() 
 	{
 		for (int i = 0; i < MatrizDesordenada.length; i++) 
