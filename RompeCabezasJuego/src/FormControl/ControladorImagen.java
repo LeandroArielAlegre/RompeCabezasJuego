@@ -8,8 +8,8 @@ public class ControladorImagen
 {
 	private BufferedImage[][] MatrizDesordenada;
 	private BufferedImage[][] MatrizOrdenada;
-	private int filaInicialCasilleroVacio = 2;
-	private int columnaInicialasilleroVacio = 2;
+	private int filaDelCasilleroVacio = 2;
+	private int columnaDelCasilleroVacio = 2;
 
 	public ControladorImagen() 
 	{
@@ -70,27 +70,27 @@ public class ControladorImagen
 	{	
 		StringBuilder sugerencia = new StringBuilder();
 		sugerencia.append("Te recomiendo el siguiente movimiento: ").append(" ").append("\n");
-		int auxArribaDeCasillaVacia = filaInicialCasilleroVacio -1;
-		int auxAbajoDeCasillaVacia = filaInicialCasilleroVacio +1;
-		int auxDerechaDeCasillaVacia = columnaInicialasilleroVacio +1;
-		int auxIzquierdaDeCasillaVacia = columnaInicialasilleroVacio -1;
+		int auxArribaDeCasillaVacia = filaDelCasilleroVacio -1;
+		int auxAbajoDeCasillaVacia = filaDelCasilleroVacio +1;
+		int auxDerechaDeCasillaVacia = columnaDelCasilleroVacio +1;
+		int auxIzquierdaDeCasillaVacia = columnaDelCasilleroVacio -1;
 
-		if(existePosicionEnMatriz(filaInicialCasilleroVacio ,auxDerechaDeCasillaVacia)) 
+		if(existePosicionEnMatriz(filaDelCasilleroVacio ,auxDerechaDeCasillaVacia)) 
 		{
 			sugerirMoverseDerecha(sugerencia, auxDerechaDeCasillaVacia);
 		}
 
-		if(existePosicionEnMatriz(filaInicialCasilleroVacio, auxIzquierdaDeCasillaVacia)) 
+		if(existePosicionEnMatriz(filaDelCasilleroVacio, auxIzquierdaDeCasillaVacia)) 
 		{
 			sugerirMoverseIzquierda(sugerencia, auxIzquierdaDeCasillaVacia);
 		}
 
-		if(existePosicionEnMatriz(auxAbajoDeCasillaVacia , columnaInicialasilleroVacio)) 
+		if(existePosicionEnMatriz(auxAbajoDeCasillaVacia , columnaDelCasilleroVacio)) 
 		{
 			sugerirMoverseAbajo(sugerencia, auxAbajoDeCasillaVacia);
 		}
 
-		if(existePosicionEnMatriz(auxArribaDeCasillaVacia, columnaInicialasilleroVacio))
+		if(existePosicionEnMatriz(auxArribaDeCasillaVacia, columnaDelCasilleroVacio))
 		{
 			sugerirMoverseArriba(sugerencia, auxArribaDeCasillaVacia);
 		}
@@ -105,10 +105,10 @@ public class ControladorImagen
 		Point indicePosicionVacio;
 
 		//imagenes de la Matriz ordenada y desordenada
-		auxImagenOrdenada = this.MatrizOrdenada[auxArribaDeCasillaVacia][columnaInicialasilleroVacio];
-		auxImagenDesordenada = this.MatrizDesordenada[auxArribaDeCasillaVacia][columnaInicialasilleroVacio];
+		auxImagenOrdenada = this.MatrizOrdenada[auxArribaDeCasillaVacia][columnaDelCasilleroVacio];
+		auxImagenDesordenada = this.MatrizDesordenada[auxArribaDeCasillaVacia][columnaDelCasilleroVacio];
 
-		indicePosicionVacio = new Point(filaInicialCasilleroVacio, columnaInicialasilleroVacio);
+		indicePosicionVacio = new Point(filaDelCasilleroVacio, columnaDelCasilleroVacio);
 
 		if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada)) 
 		{
@@ -126,10 +126,10 @@ public class ControladorImagen
 		BufferedImage auxImagenDesordenada;
 		Point indicePosicionVacio;
 
-		auxImagenOrdenada = this.MatrizOrdenada[auxAbajoDeCasillaVacia][columnaInicialasilleroVacio];
-		auxImagenDesordenada = this.MatrizDesordenada[auxAbajoDeCasillaVacia][columnaInicialasilleroVacio];
+		auxImagenOrdenada = this.MatrizOrdenada[auxAbajoDeCasillaVacia][columnaDelCasilleroVacio];
+		auxImagenDesordenada = this.MatrizDesordenada[auxAbajoDeCasillaVacia][columnaDelCasilleroVacio];
 
-		indicePosicionVacio = new Point(filaInicialCasilleroVacio, columnaInicialasilleroVacio);
+		indicePosicionVacio = new Point(filaDelCasilleroVacio, columnaDelCasilleroVacio);
 
 
 		if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada)) 
@@ -148,10 +148,10 @@ public class ControladorImagen
 		BufferedImage auxImagenDesordenada;
 		Point indicePosicionVacio;
 
-		auxImagenOrdenada = this.MatrizOrdenada[filaInicialCasilleroVacio][auxIzquierdaDeCasillaVacia];
-		auxImagenDesordenada = this.MatrizDesordenada[filaInicialCasilleroVacio][auxIzquierdaDeCasillaVacia];
+		auxImagenOrdenada = this.MatrizOrdenada[filaDelCasilleroVacio][auxIzquierdaDeCasillaVacia];
+		auxImagenDesordenada = this.MatrizDesordenada[filaDelCasilleroVacio][auxIzquierdaDeCasillaVacia];
 
-		indicePosicionVacio = new Point(filaInicialCasilleroVacio, columnaInicialasilleroVacio);
+		indicePosicionVacio = new Point(filaDelCasilleroVacio, columnaDelCasilleroVacio);
 
 		if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada)) 
 		{
@@ -169,9 +169,9 @@ public class ControladorImagen
 		BufferedImage auxImagenOrdenada;
 		BufferedImage auxImagenDesordenada;
 		Point indicePosicionVacio;
-		auxImagenOrdenada = this.MatrizOrdenada[filaInicialCasilleroVacio][auxDerechaDeCasillaVacia];
-		auxImagenDesordenada = this.MatrizDesordenada[filaInicialCasilleroVacio][auxDerechaDeCasillaVacia];
-		indicePosicionVacio = new Point(filaInicialCasilleroVacio, columnaInicialasilleroVacio);
+		auxImagenOrdenada = this.MatrizOrdenada[filaDelCasilleroVacio][auxDerechaDeCasillaVacia];
+		auxImagenDesordenada = this.MatrizDesordenada[filaDelCasilleroVacio][auxDerechaDeCasillaVacia];
+		indicePosicionVacio = new Point(filaDelCasilleroVacio, columnaDelCasilleroVacio);
 
 		if(!sonBufferedImagenIguales(auxImagenDesordenada,auxImagenOrdenada)) 
 		{
@@ -213,8 +213,8 @@ public class ControladorImagen
 
 	public int desplazarmeEnMatriz(String teclaIngresada, int contador) 
 	{
-		int fila = this.filaInicialCasilleroVacio;
-		int columna = this.columnaInicialasilleroVacio;
+		int fila = this.filaDelCasilleroVacio;
+		int columna = this.columnaDelCasilleroVacio;
 		String teclaMovimientoDerecha="d";
 		String teclaMovimientoIzquierda="a";
 		String teclaMovimientoAbajo="s";
@@ -271,7 +271,7 @@ public class ControladorImagen
 		aux = this.MatrizDesordenada[fila][columna - 1];
 		this.MatrizDesordenada[fila][columna - 1] = this.MatrizDesordenada[fila][columna];
 		this.MatrizDesordenada[fila][columna] = aux;
-		this.columnaInicialasilleroVacio--;
+		this.columnaDelCasilleroVacio--;
 	}
 
 	private void moverAbajo(int fila, int columna) {
@@ -279,7 +279,7 @@ public class ControladorImagen
 		aux = this.MatrizDesordenada[fila + 1][columna];
 		this.MatrizDesordenada[fila + 1][columna] = this.MatrizDesordenada[fila][columna];
 		this.MatrizDesordenada[fila][columna] = aux;
-		this.filaInicialCasilleroVacio++;
+		this.filaDelCasilleroVacio++;
 	}
 
 	private void moverArriba(int fila, int columna) {
@@ -287,7 +287,7 @@ public class ControladorImagen
 		aux = this.MatrizDesordenada[fila - 1][columna];
 		this.MatrizDesordenada[fila - 1][columna] = this.MatrizDesordenada[fila][columna];
 		this.MatrizDesordenada[fila][columna] = aux;
-		this.filaInicialCasilleroVacio--;
+		this.filaDelCasilleroVacio--;
 	}
 
 	private void moverDerecha(int fila, int columna) {
@@ -295,7 +295,7 @@ public class ControladorImagen
 		aux = this.MatrizDesordenada[fila][columna + 1];
 		MatrizDesordenada[fila][columna + 1] = this.MatrizDesordenada[fila][columna];
 		MatrizDesordenada[fila][columna] = aux;
-		this.columnaInicialasilleroVacio++;
+		this.columnaDelCasilleroVacio++;
 	}
 
 	private int incrementarContador(int contador) 
@@ -341,18 +341,18 @@ public class ControladorImagen
 	}
 
 	public int getFilaVacio() {
-		return filaInicialCasilleroVacio;
+		return filaDelCasilleroVacio;
 	}
 
 	public void setFilaVacio(int filaVacio) {
-		this.filaInicialCasilleroVacio = filaVacio;
+		this.filaDelCasilleroVacio = filaVacio;
 	}
 
 	public int getColVacio() {
-		return columnaInicialasilleroVacio;
+		return columnaDelCasilleroVacio;
 	}
 
 	public void setColVacio(int colVacio) {
-		this.columnaInicialasilleroVacio = colVacio;
+		this.columnaDelCasilleroVacio = colVacio;
 	}
 }

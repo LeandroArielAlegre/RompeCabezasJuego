@@ -50,40 +50,61 @@ public class Controlador {
 		mezclarMatriz();
 	}
 
-	//	public void proximoMovimiento() {
-	//		
-	//		//caso c+1
-	//		int auxFMenos = filaCasillaVacia -1;
-	//		int auxFMas = filaCasillaVacia +1;
-	//		int auxCMas = columnaCasillaVacia +1;
-	//		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
-	//				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
-	//			//Cual de ambos es mayor:
-	//			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
-	//				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
-	//				System.out.println("Es menor a mi columna derecha: " + auxFMas + " " + columnaCasillaVacia);
-	//				System.out.println("Muevete hacia abajo");
-	//			}
-	//		}
-	//		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
-	//				existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
-	//			//Cual de ambos es mayor:
-	//			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
-	//				//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
-	//				System.out.println("Es menor a mi columna derecha: " + auxFMenos + " " + columnaCasillaVacia);
-	//				System.out.println("Muevete hacia arriba");
-	//			}
-	//		}
-	//	}
-	//	
+		public String proximoMovimiento() {
+			StringBuilder sugerencia = new StringBuilder();
+			sugerencia.append("Te recomiendo lo siguiente: ").append(" ").append("\n");
+			//caso c+1
+			int auxFMenos = filaCasillaVacia -1;
+			int auxFMas = filaCasillaVacia +1;
+			int auxCMas = columnaCasillaVacia +1;
+			if(numeroDerechaMayorQueAbajo(auxFMas, auxCMas)	
+			&&numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) 
+			{
+				int casillaDeArribaAux=this.matriz[auxFMenos][columnaCasillaVacia];
+				int casillaDeAbajoAux= this.matriz[auxFMas][columnaCasillaVacia];
+				if((casillaDeArribaAux>casillaDeAbajoAux)) {
+					sugerencia.append("Movete hacia Arriba").append(" ").append("\n");
+				}else{
+				sugerencia.append("Movete hacia Abajo").append(" ").append("\n");
+				}
+			}else {
+				//TO DO
+			}
+			return sugerencia.toString();
+		}
 
-	//	private boolean existePosicionEnMatriz(int fila, int columna) {
-	//        if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
-	//            return true;
-	//
-	//        }
-	//        return false;
-	//    }
+		private boolean numeroDerechaMayorQueArriba(int auxFMenos, int auxCMas) {
+			if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+					existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
+				//Cual de ambos es mayor:
+				if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
+					//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private boolean numeroDerechaMayorQueAbajo(int auxFMas, int auxCMas) {
+			if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+					existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
+				//Cual de ambos es mayor:
+				if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
+					//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
+					return true;
+				}
+			}
+			return false;
+		}
+		
+
+		private boolean existePosicionEnMatriz(int fila, int columna) {
+	        if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
+	            return true;
+	
+	        }
+	        return false;
+	    }
 
 	public void imprimirGane() 
 	{
@@ -206,8 +227,16 @@ public class Controlador {
 	private boolean sonEnterosIguales(int i, int  j) {
 		return i==j?true:false;
 	}
-
+	
 	private int incrementarContador(int contador) {
 		return ++contador;
+	}
+	public String devolverElementoFinalMatriz() {
+		int fila = 2;
+		int columna = 2;
+		int retorno = matriz[fila][columna];
+		StringBuilder sb = new StringBuilder(); 
+		sb.append(retorno);
+		return sb.toString();
 	}
 }

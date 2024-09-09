@@ -55,9 +55,9 @@ public class PantallaImagen {
 		comboBox.setBounds(10, 344, 126, 20);
 		frame.getContentPane().add(comboBox);
 
-		JLabel labelImagenCompleta = new JLabel("");
-		labelImagenCompleta.setFocusable(false);
-		labelImagenCompleta.setBounds(559, 187, 120, 114);
+		JLabel labelPuzzleResuelto = new JLabel("");
+		labelPuzzleResuelto.setFocusable(false);
+		labelPuzzleResuelto.setBounds(559, 187, 120, 114);
 
 		JButton btnImagen = new JButton("Mostrar");
 		btnImagen.setFocusable(false);
@@ -77,7 +77,7 @@ public class PantallaImagen {
 					
 					setRompecabezas(MatrizImagenes, labels);
 				
-					mostrarImagenCompleta(labelImagenCompleta, imagenOriginal);
+					mostrarImagenCompleta(labelPuzzleResuelto, imagenOriginal);
 					
 				} catch (IOException e1) 
 				{
