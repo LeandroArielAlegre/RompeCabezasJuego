@@ -319,7 +319,7 @@ public class ControladorImagen
 		}
 		return true;
 	}
-	
+
 	public boolean gano() 
 	{
 		for (int i = 0; i < MatrizDesordenada.length; i++) 
@@ -334,7 +334,7 @@ public class ControladorImagen
 		}
 		return true;
 	}
-	
+
 	public BufferedImage[][] getMatrizDesordenada() 
 	{
 		return this.MatrizDesordenada;

@@ -27,7 +27,7 @@ public class PantallaImagen {
 	private BufferedImage[][] MatrizImagenes;
 	private JLabel [][] labels = new JLabel[3][3];
 	private int contador = 0;
-	
+
 	/**
 	 * Create the application.
 	 */
@@ -42,13 +42,14 @@ public class PantallaImagen {
 	private void initialize() 
 	{
 		controladorImagen = new ControladorImagen();
-		
+
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 705, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(new Color(250, 250, 150));
-		
+
 		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
 		comboBox.setFocusable(false);
 		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg", "/resources/imagen4.png", "/resources/imagen5.png"};
@@ -74,11 +75,11 @@ public class PantallaImagen {
 					MatrizImagenes = controladorImagen.cortarImagen(imagenOriginal,"desordenada");
 					controladorImagen.cortarImagen(imagenOriginal,"ordenada");
 					controladorImagen.mezclarMatriz();
-					
+
 					setRompecabezas(MatrizImagenes, labels);
-				
+
 					mostrarImagenCompleta(labelPuzzleResuelto, imagenOriginal);
-					
+
 				} catch (IOException e1) 
 				{
 					// TODO Auto-generated catch block
@@ -93,9 +94,9 @@ public class PantallaImagen {
 				labelImagenCompleta.setIcon(iconoImagenCompleta);
 			}
 
-			
+
 		});
-		btnImagen.setBounds(10, 375, 190, 50);
+		btnImagen.setBounds(10, 375, 126, 50);
 		frame.getContentPane().add(btnImagen);
 
 		JButton btnVolver = new JButton("Atras");
@@ -111,14 +112,14 @@ public class PantallaImagen {
 		});
 		btnVolver.setBounds(10, 443, 89, 23);
 		frame.getContentPane().add(btnVolver);
-		
+
 		// Label de movimientos
 		JLabel lbMovimientos = new JLabel(" ");
-		
+
 		lbMovimientos.setBounds(10, 101, 190, 160);
 		frame.getContentPane().add(lbMovimientos);
-		
-		
+
+
 		//Label de contador, se inicializa oculto
 		JLabel lbContador = new JLabel("Contador de Movimentos: 0");
 		lbContador.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -129,7 +130,7 @@ public class PantallaImagen {
 		lbContador.setVisible(false);
 		lbContador.setBounds(260, 11, 167, 30);
 		frame.getContentPane().add(lbContador);
-		
+
 		JButton lbAyuda = new JButton("Ayuda");
 		lbAyuda.setFocusable(false);
 		lbAyuda.addActionListener(new ActionListener() {
@@ -140,8 +141,8 @@ public class PantallaImagen {
 		});
 		lbAyuda.setBounds(10, 67, 89, 23);
 		frame.getContentPane().add(lbAyuda);
-		
-		
+
+
 
 
 		// INPUTS
@@ -162,27 +163,27 @@ public class PantallaImagen {
 				String teclaS1 =String.valueOf(tecla);
 
 				contador = controladorImagen.desplazarmeEnMatriz(teclaS1, contador);
-				
+
 				actualizarMatrizMostradaPorPantalla(controladorImagen.getMatrizDesordenada(), labels);
-				
+
 				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon(null);
 				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
 				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(160,70,80));
-				
+
 				lbContador.setVisible(true);
 				lbContador.setText("Contador de Movimentos:" + contador);				
-				
+
 				comboBox.setVisible(false);
 				btnVolver.setVisible(false);
 				btnImagen.setVisible(false);
-				
+
 				if (controladorImagen.gano()) 
 				{
-		            controladorImagen.imprimirGane();
-		            lbContador.setText("Contador de Movimentos: 0");
-		            lbContador.setVisible(false);
-		            btnVolver.setVisible(true);
-		        }
+					controladorImagen.imprimirGane();
+					lbContador.setText("Contador de Movimentos: 0");
+					lbContador.setVisible(false);
+					btnVolver.setVisible(true);
+				}
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -196,7 +197,7 @@ public class PantallaImagen {
 	{
 		frame.setVisible(condicion);
 	}
-	
+
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -214,7 +215,7 @@ public class PantallaImagen {
 			}
 		});
 	}
-	
+
 	public void setRompecabezas(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
 	{
 		int xlabel = 190;
@@ -233,7 +234,7 @@ public class PantallaImagen {
 					frame.getContentPane().add(labels[fila][columna]);
 
 					ImageIcon imageIcon = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-					
+
 					ImageIcon img = new ImageIcon(imageIcon.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 					labels[fila][columna].setIcon(img);
 				}
@@ -259,7 +260,7 @@ public class PantallaImagen {
 
 		}
 	}
-	
+
 	public void actualizarMatrizMostradaPorPantalla(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
 	{
 		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
