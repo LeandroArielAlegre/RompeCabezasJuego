@@ -17,7 +17,7 @@ public class Menu {
 	private JFrame frame;
 	private PantallaImagen pantallaImagen;
 	private Pantalla pantallaPuzzleNumeros;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -27,7 +27,7 @@ public class Menu {
 	public void setPantalla(Pantalla pantalla) {
 		this.pantallaPuzzleNumeros = pantalla;
 	}
-	
+
 	public void setVisiblePantalla(boolean condicion) {
 		frame.setVisible(condicion);
 	}
@@ -56,36 +56,37 @@ public class Menu {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		pantallaImagen = new PantallaImagen();
 		pantallaPuzzleNumeros = new Pantalla();
-		frame.setBounds(100, 100, 500, 500);
+		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.getContentPane().setBackground(Color.RED);
+		frame.getContentPane().setBackground(new Color(172, 242, 183));
 		JButton botonPuzzleImagen = new JButton("Juego Imagen");
 		botonPuzzleImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaImagen.setVisiblePantalla(true);
 				frame.dispose();
-				
+
 			}
 		});
-		botonPuzzleImagen.setBounds(123, 68, 223, 62);
+		botonPuzzleImagen.setBounds(79, 68, 223, 62);
 		frame.getContentPane().add(botonPuzzleImagen);
-		
+
 		JButton botonPuzzleNumeros = new JButton("Juego numeros");
 		botonPuzzleNumeros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaPuzzleNumeros.setVisiblePantalla(true);
-				
+
 				frame.dispose();
 			}
 		});
-		botonPuzzleNumeros.setBounds(123, 141, 223, 52);
+		botonPuzzleNumeros.setBounds(79, 141, 223, 52);
 		frame.getContentPane().add(botonPuzzleNumeros);
-		
+
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,13 +94,13 @@ public class Menu {
 				frame.dispose();
 			}
 		});
-		btnSalir.setBounds(106, 204, 255, 112);
+		btnSalir.setBounds(79, 204, 223, 52);
 		frame.getContentPane().add(btnSalir);
-		
+
 		JLabel lblNewLabel = new JLabel("ROMPECABEZAS EL JUEGO");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Snap ITC", Font.PLAIN, 20));
-		lblNewLabel.setBounds(65, 10, 341, 47);
+		lblNewLabel.setBounds(20, 10, 341, 47);
 		frame.getContentPane().add(lblNewLabel);
 	}
 }
