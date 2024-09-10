@@ -27,6 +27,7 @@ public class PantallaImagen {
 	private BufferedImage[][] MatrizImagenes;
 	private JLabel [][] labels = new JLabel[3][3];
 	private int contador = 0;
+	private boolean juegoIniciado = false;
 
 	/**
 	 * Create the application.
@@ -52,7 +53,7 @@ public class PantallaImagen {
 
 		JComboBox<String> comboBox = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
 		comboBox.setFocusable(false);
-		String [] rutaImagen = {"/resources/imagen1.png","/resources/imagen2.jpg","/resources/imagen3.jpg", "/resources/imagen4.png", "/resources/imagen5.png"};
+		String [] rutaImagen = {"/recursos/imagen1.png","/recursos/imagen2.jpg","/recursos/imagen3.jpg", "/recursos/imagen4.png", "/recursos/imagen5.png"};
 		comboBox.setBounds(10, 344, 126, 20);
 		frame.getContentPane().add(comboBox);
 
@@ -79,6 +80,7 @@ public class PantallaImagen {
 					setRompecabezas(MatrizImagenes, labels);
 
 					mostrarImagenCompleta(labelPuzzleResuelto, imagenOriginal);
+					juegoIniciado = true;
 
 				} catch (IOException e1) 
 				{
@@ -158,33 +160,37 @@ public class PantallaImagen {
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
+				if(juegoIniciado) {
+					char tecla = e.getKeyChar();
+					String teclaS1 =String.valueOf(tecla);
 
-				char tecla = e.getKeyChar();
-				String teclaS1 =String.valueOf(tecla);
+					contador = controladorImagen.desplazarmeEnMatriz(teclaS1, contador);
 
-				contador = controladorImagen.desplazarmeEnMatriz(teclaS1, contador);
+					actualizarMatrizMostradaPorPantalla(controladorImagen.getMatrizDesordenada(), labels);
 
-				actualizarMatrizMostradaPorPantalla(controladorImagen.getMatrizDesordenada(), labels);
+					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon(null);
+					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
+					labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(160,70,80));
 
-				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setIcon(null);
-				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setOpaque(true);
-				labels[controladorImagen.getFilaVacio()][controladorImagen.getColVacio()].setBackground(new Color(160,70,80));
+					lbContador.setVisible(true);
+					lbContador.setText("Contador de Movimentos:" + contador);				
 
-				lbContador.setVisible(true);
-				lbContador.setText("Contador de Movimentos:" + contador);				
+					comboBox.setVisible(false);
+					btnVolver.setVisible(false);
+					btnImagen.setVisible(false);
 
-				comboBox.setVisible(false);
-				btnVolver.setVisible(false);
-				btnImagen.setVisible(false);
-
-				if (controladorImagen.gano()) 
-				{
-					controladorImagen.imprimirGane();
-					lbContador.setText("Contador de Movimentos: 0");
-					lbContador.setVisible(false);
-					btnVolver.setVisible(true);
+					if (controladorImagen.gano()) 
+					{
+						controladorImagen.imprimirGane();
+						lbContador.setText("Contador de Movimentos: 0");
+						lbContador.setVisible(false);
+						btnVolver.setVisible(true);
+					}
+				
 				}
-			}
+					
+				}
+				
 			@Override
 			public void keyReleased(KeyEvent e) 
 			{
