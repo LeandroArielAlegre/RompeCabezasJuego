@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -12,12 +13,15 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import FormControl.ControladorSonido;
+
 public class Menu {
 
 	private JFrame frame;
 	private PantallaImagen pantallaImagen;
 	private Pantalla pantallaPuzzleNumeros;
-
+	private ControladorSonido controladorSonido;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -59,16 +63,24 @@ public class Menu {
 		frame.setResizable(false);
 		pantallaImagen = new PantallaImagen();
 		pantallaPuzzleNumeros = new Pantalla();
+	    controladorSonido = new ControladorSonido();
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(new Color(172, 242, 183));
+		//Cancion
+		
+		controladorSonido.reproducirSonido("/recursos/menu.wav", "menu");
+		
+		
 		JButton botonPuzzleImagen = new JButton("Juego Imagen");
 		botonPuzzleImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaImagen.setVisiblePantalla(true);
 				frame.dispose();
+				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
+				controladorSonido.detenerSonido("menu");
 
 			}
 		});
@@ -80,8 +92,11 @@ public class Menu {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				pantallaPuzzleNumeros.setVisiblePantalla(true);
-
+				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
+				
 				frame.dispose();
+				controladorSonido.detenerSonido("menu");
+				
 			}
 		});
 		botonPuzzleNumeros.setBounds(79, 141, 223, 52);
@@ -92,6 +107,8 @@ public class Menu {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				frame.dispose();
+				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
+				controladorSonido.detenerSonido("menu");
 			}
 		});
 		btnSalir.setBounds(79, 204, 223, 52);
