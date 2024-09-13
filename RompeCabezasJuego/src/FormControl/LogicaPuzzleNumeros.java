@@ -5,26 +5,26 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
-public class Controlador {
+public class LogicaPuzzleNumeros {
 
 	private int[][] matriz = new int[3][3];
 	private int[][] matrizRespuesta = new int[3][3];
 	private int filaCasillaVacia = 2; // Posición inicial del casillero vacío
 	private int columnaCasillaVacia = 2;
 	private int numeroRepresentativoDeVacio=0;
-	public Controlador() {
+	public LogicaPuzzleNumeros() {
 		inicializarMatriz();
 	}
 
 	private void mezclarMatriz() 
 	{
-		Random rand = new Random();
-		String[] movimientos = {"w", "a", "s", "d"};
+		Random indiceAleatorio = new Random();
+		String[] movimientosEnTablero = {"w", "a", "s", "d"};
 
 		for (int cantidadMovimientosAleatorios = 0; cantidadMovimientosAleatorios < 1000; cantidadMovimientosAleatorios++) 
 		{
-			String movimiento = movimientos[rand.nextInt(movimientos.length)];
-			desplazarmeEnMatriz(movimiento, 0);
+			String direccionDeMovimiento = movimientosEnTablero[indiceAleatorio.nextInt(movimientosEnTablero.length)];
+			desplazarmeEnMatriz(direccionDeMovimiento, 0);
 		}
 	}
 

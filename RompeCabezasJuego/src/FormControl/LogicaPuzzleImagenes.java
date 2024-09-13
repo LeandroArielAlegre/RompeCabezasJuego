@@ -4,42 +4,42 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
-public class ControladorImagen
+public class LogicaPuzzleImagenes
 {
 	private BufferedImage[][] MatrizDesordenada;
 	private BufferedImage[][] MatrizOrdenada;
 	private int filaDelCasilleroVacio = 2;
 	private int columnaDelCasilleroVacio = 2;
 
-	public ControladorImagen() 
+	public LogicaPuzzleImagenes() 
 	{
 
 	}
 
 	public  void imprimirGane() 
 	{
-		JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
+		JOptionPane.showMessageDialog(null, "¡Felicitaciones Haz ganado!");
 	}
 
 	public void mezclarMatriz() 
 	{
-		Random rand = new Random();
-		String[] movimientos = {"w", "a", "s", "d"};
+		Random indiceAleatorio = new Random();
+		String[] movimientosEnTablero = {"w", "a", "s", "d"};
 
 		for (int cantidadMovimientosAleatorios = 0; cantidadMovimientosAleatorios < 1000; cantidadMovimientosAleatorios++) 
 		{
-			String movimiento = movimientos[rand.nextInt(movimientos.length)];
-			desplazarmeEnMatriz(movimiento, 0);
+			String direccionDeMovimiento = movimientosEnTablero[indiceAleatorio.nextInt(movimientosEnTablero.length)];
+			desplazarmeEnMatriz(direccionDeMovimiento, 0);
 		}
 	}
 
-	public BufferedImage[][] cortarImagen(BufferedImage imagen,String esMatrizOrdenadaODesordenada) 
+	public BufferedImage[][] cortarImagen(BufferedImage imagen,String tipoDeOrdenamientoDeMatriz) 
 	{
 		int filas = 3;
 		int columnas = 3;
 		int ancho = imagen.getWidth() / columnas;
 		int alto = imagen.getHeight() / filas;
-		if(esMatrizOrdenadaODesordenada.equals("desordenada")) 
+		if(tipoDeOrdenamientoDeMatriz.equals("desordenada")) 
 		{
 			this.MatrizDesordenada = new BufferedImage[filas][columnas];
 			for (int i = 0; i < filas; i++) 
@@ -51,7 +51,7 @@ public class ControladorImagen
 			}
 			return this.MatrizDesordenada;
 
-		}else if(esMatrizOrdenadaODesordenada.equals("ordenada"))
+		}else if(tipoDeOrdenamientoDeMatriz.equals("ordenada"))
 		{
 			this.MatrizOrdenada = new BufferedImage[filas][columnas];
 			for (int i = 0; i < filas; i++) 
@@ -104,7 +104,7 @@ public class ControladorImagen
 		BufferedImage auxImagenDesordenada;
 		Point indicePosicionVacio;
 
-		//imagenes de la Matriz ordenada y desordenada
+		
 		auxImagenOrdenada = this.MatrizOrdenada[auxArribaDeCasillaVacia][columnaDelCasilleroVacio];
 		auxImagenDesordenada = this.MatrizDesordenada[auxArribaDeCasillaVacia][columnaDelCasilleroVacio];
 
@@ -211,7 +211,7 @@ public class ControladorImagen
 		return false;
 	}
 
-	public int desplazarmeEnMatriz(String teclaIngresada, int contador) 
+	public int desplazarmeEnMatriz(String teclaIngresada, int contadorMovimientos) 
 	{
 		int fila = this.filaDelCasilleroVacio;
 		int columna = this.columnaDelCasilleroVacio;
@@ -226,8 +226,8 @@ public class ControladorImagen
 			if (columna < this.MatrizDesordenada[fila].length - 1) 
 			{
 				moverDerecha(fila, columna);
-				contador = incrementarContador(contador);
-				return contador;
+				contadorMovimientos = incrementarContador(contadorMovimientos);
+				return contadorMovimientos;
 			}
 		}
 
@@ -237,8 +237,8 @@ public class ControladorImagen
 			if (fila > 0) 
 			{
 				moverArriba(fila, columna);
-				contador = incrementarContador(contador);
-				return contador;
+				contadorMovimientos = incrementarContador(contadorMovimientos);
+				return contadorMovimientos;
 			}
 		}
 
@@ -248,8 +248,8 @@ public class ControladorImagen
 			if (fila < this.MatrizDesordenada.length - 1) 
 			{
 				moverAbajo(fila, columna);
-				contador = incrementarContador(contador);
-				return contador;
+				contadorMovimientos = incrementarContador(contadorMovimientos);
+				return contadorMovimientos;
 			}
 		}
 
@@ -259,11 +259,11 @@ public class ControladorImagen
 			if (columna > 0) 
 			{
 				moverIzquierda(fila, columna);
-				contador = incrementarContador(contador);
-				return contador;
+				contadorMovimientos = incrementarContador(contadorMovimientos);
+				return contadorMovimientos;
 			}	
 		}
-		return contador;
+		return contadorMovimientos;
 	}
 
 	private void moverIzquierda(int fila, int columna) {
@@ -298,9 +298,9 @@ public class ControladorImagen
 		this.columnaDelCasilleroVacio++;
 	}
 
-	private int incrementarContador(int contador) 
+	private int incrementarContador(int contadorMovimientos) 
 	{
-		return ++contador;
+		return ++contadorMovimientos;
 	}
 
 	private boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) 
@@ -322,11 +322,11 @@ public class ControladorImagen
 
 	public boolean gano() 
 	{
-		for (int i = 0; i < MatrizDesordenada.length; i++) 
+		for (int fila = 0; fila < MatrizDesordenada.length; fila++) 
 		{
-			for (int j = 0; j < MatrizDesordenada[i].length; j++) 
+			for (int columna = 0; columna < MatrizDesordenada[fila].length; columna++) 
 			{
-				if (!sonBufferedImagenIguales(MatrizDesordenada[i][j], MatrizOrdenada[i][j])) 
+				if (!sonBufferedImagenIguales(MatrizDesordenada[fila][columna], MatrizOrdenada[fila][columna])) 
 				{
 					return false;
 				}

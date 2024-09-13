@@ -13,34 +13,34 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import FormControl.ControladorSonido;
+import FormControl.Sonido;
 
 public class Menu {
 
-	private JFrame frame;
-	private PantallaImagen pantallaImagen;
-	private Pantalla pantallaPuzzleNumeros;
-	private ControladorSonido controladorSonido;
+	private JFrame pantallaMenu;
+	private PantallaPuzzleImagenes pantallaPuzzleImagenes;
+	private PantallaPuzzleNumeros pantallaPuzzleNumeros;
+	private Sonido sonido;
 	
 	/**
 	 * Launch the application.
 	 */
-	public void setPantalla(PantallaImagen pantallaImagen) {
-		this.pantallaImagen = pantallaImagen;
+	public void setPantalla(PantallaPuzzleImagenes pantallaImagen) {
+		this.pantallaPuzzleImagenes = pantallaImagen;
 	}
-	public void setPantalla(Pantalla pantalla) {
+	public void setPantalla(PantallaPuzzleNumeros pantalla) {
 		this.pantallaPuzzleNumeros = pantalla;
 	}
 
 	public void setVisiblePantalla(boolean condicion) {
-		frame.setVisible(condicion);
+		pantallaMenu.setVisible(condicion);
 	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Menu window = new Menu();
-					window.frame.setVisible(true);
+					window.pantallaMenu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,65 +59,65 @@ public class Menu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		pantallaImagen = new PantallaImagen();
-		pantallaPuzzleNumeros = new Pantalla();
-	    controladorSonido = new ControladorSonido();
-		frame.setBounds(100, 100, 400, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().setBackground(new Color(172, 242, 183));
+		pantallaMenu = new JFrame();
+		pantallaMenu.setResizable(false);
+		pantallaPuzzleImagenes = new PantallaPuzzleImagenes();
+		pantallaPuzzleNumeros = new PantallaPuzzleNumeros();
+	    sonido = new Sonido();
+		pantallaMenu.setBounds(100, 100, 400, 400);
+		pantallaMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pantallaMenu.getContentPane().setLayout(null);
+		pantallaMenu.getContentPane().setBackground(new Color(172, 242, 183));
 		//Cancion
 		
-		controladorSonido.reproducirSonido("/recursos/menu.wav", "menu");
+		sonido.reproducirSonido("/recursos/menu.wav", "menu");
 		
 		
 		JButton botonPuzzleImagen = new JButton("Juego Imagen");
 		botonPuzzleImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				pantallaImagen.setVisiblePantalla(true);
-				frame.dispose();
-				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
-				controladorSonido.detenerSonido("menu");
+				pantallaMenu.setVisible(false);
+				pantallaPuzzleImagenes.setVisiblePantalla(true);
+				pantallaMenu.dispose();
+				sonido.reproducirSonido("/recursos/boton.wav", "boton");
+				sonido.detenerSonido("menu");
 
 			}
 		});
 		botonPuzzleImagen.setBounds(79, 68, 223, 62);
-		frame.getContentPane().add(botonPuzzleImagen);
+		pantallaMenu.getContentPane().add(botonPuzzleImagen);
 
 		JButton botonPuzzleNumeros = new JButton("Juego numeros");
 		botonPuzzleNumeros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				pantallaMenu.setVisible(false);
 				pantallaPuzzleNumeros.setVisiblePantalla(true);
-				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
+				sonido.reproducirSonido("/recursos/boton.wav", "boton");
 				
-				frame.dispose();
-				controladorSonido.detenerSonido("menu");
+				pantallaMenu.dispose();
+				sonido.detenerSonido("menu");
 				
 			}
 		});
 		botonPuzzleNumeros.setBounds(79, 141, 223, 52);
-		frame.getContentPane().add(botonPuzzleNumeros);
+		pantallaMenu.getContentPane().add(botonPuzzleNumeros);
 
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				frame.dispose();
-				controladorSonido.reproducirSonido("/recursos/boton.wav", "boton");
-				controladorSonido.detenerSonido("menu");
+				pantallaMenu.setVisible(false);
+				pantallaMenu.dispose();
+				sonido.reproducirSonido("/recursos/boton.wav", "boton");
+				sonido.detenerSonido("menu");
 			}
 		});
 		btnSalir.setBounds(79, 204, 223, 52);
-		frame.getContentPane().add(btnSalir);
+		pantallaMenu.getContentPane().add(btnSalir);
 
-		JLabel lblNewLabel = new JLabel("ROMPECABEZAS EL JUEGO");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Snap ITC", Font.PLAIN, 20));
-		lblNewLabel.setBounds(20, 10, 341, 47);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel labelNombreDelJuego = new JLabel("ROMPECABEZAS EL JUEGO");
+		labelNombreDelJuego.setHorizontalAlignment(SwingConstants.CENTER);
+		labelNombreDelJuego.setFont(new Font("Snap ITC", Font.PLAIN, 20));
+		labelNombreDelJuego.setBounds(20, 10, 341, 47);
+		pantallaMenu.getContentPane().add(labelNombreDelJuego);
 	}
 }

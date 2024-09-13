@@ -10,9 +10,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class ControladorSonido {
+public class Sonido {
 		
-	private Map<String, Clip> clips = new HashMap<>();
+	private Map<String, Clip> hashMapClips = new HashMap<>();
 	  private Clip clip; 
 	 public void reproducirSonido(String rutaArchivo, String sonido) {
 	        try {
@@ -22,8 +22,8 @@ public class ControladorSonido {
 	            clip.open(audioStream);
 	            clip.start();  // Iniciar el sonido
 	           //Si ya existe no lo guardo
-	            if(!clips.containsKey(sonido)) {
-	            	clips.put(sonido, clip);
+	            if(!hashMapClips.containsKey(sonido)) {
+	            	hashMapClips.put(sonido, clip);
 	            	
 	            }
 	            
@@ -34,15 +34,24 @@ public class ControladorSonido {
 
 	    public void detenerSonido(String sonido){
 	    	//Si existe
-	    	if(clips.containsKey(sonido)) {
-	    		Clip clip = clips.get(sonido);  // Obtener el clip del mapa
+	    	if(hashMapClips.containsKey(sonido)) {
+	    		Clip clip = hashMapClips.get(sonido);  // Obtener el clip del mapa
 		        if (clip != null && clip.isRunning()) {
 		            clip.stop();  // Detener el sonido
 		        }
 	    	}else {
-	    		 System.out.println("ERROR: no existe ese sonido");
+	    		 throw new IllegalArgumentException("ERROR: este sonido no esta cargado");
 	    	}
 	    	
 	        
+	    }
+	    
+	    public boolean estaReproduciendo(String sonido) {
+	    	if (hashMapClips.containsKey(sonido)) {
+	    		Clip clip = hashMapClips.get(sonido); 
+	    		return clip.isRunning(); 
+	    	}
+	    	throw new IllegalArgumentException("ERROR: este sonido no esta cargado");
+	    	
 	    }
 }

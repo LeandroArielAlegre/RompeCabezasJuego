@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import FormControl.Controlador;
+import FormControl.LogicaPuzzleNumeros;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -17,28 +17,28 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Cursor;
 
-public class Pantalla {
+public class PantallaPuzzleNumeros {
 
-	private JFrame frame;
-	private Controlador controlador;
+	private JFrame pantallaPrincipal;
+	private LogicaPuzzleNumeros logicaPuzzleNumeros;
 	private JLabel matrizDeNumerosVisible;
 	private JLabel lblContadorDeMovimientos;
-	private int contador = 0;
+	private int contadorMovimientos = 0;
 	private JButton botonVolverAMenu;
 	private JButton botonAyuda;
 	private JLabel lblDondeTerminaElCasilleroVacio;
 	private JLabel lblInstructivo;
 
 	public void mostrarPantalla(boolean condicion) {
-		frame.setVisible(condicion);
+		pantallaPrincipal.setVisible(condicion);
 	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Pantalla window = new Pantalla();
-					window.frame.setVisible(true);
+					PantallaPuzzleNumeros window = new PantallaPuzzleNumeros();
+					window.pantallaPrincipal.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,31 +49,18 @@ public class Pantalla {
 	/**
 	 * Crear aplicacion
 	 */
-	public Pantalla() {
+	public PantallaPuzzleNumeros() {
 		inicializar();
 	}
 
 	private void inicializar() {
-		frame = new JFrame();
-		controlador = new Controlador();
-		frame.setBounds(150, 200, 390, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pantallaPrincipal = new JFrame();
+		logicaPuzzleNumeros = new LogicaPuzzleNumeros();
+		pantallaPrincipal.setBounds(150, 200, 390, 300);
+		pantallaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panelPantallaJuego = new JPanel();
 		panelPantallaJuego.setBackground(new Color(128, 64, 0));
-
-//		JLabel lblElVacioTerminaAqui = new JLabel("");
-//		lblElVacioTerminaAqui.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblElVacioTerminaAqui.setHorizontalTextPosition(SwingConstants.CENTER);
-//		lblElVacioTerminaAqui.setFont(new Font("Arial Black", Font.PLAIN, 40));
-//		lblElVacioTerminaAqui.setOpaque(true);
-//		lblElVacioTerminaAqui.setBackground(new Color(190, 140, 65));
-//		lblElVacioTerminaAqui.setAutoscrolls(true);
-//		lblElVacioTerminaAqui.setFocusable(false);
-//		lblElVacioTerminaAqui.setBounds(156, 175, 46, 52);
-//		panelPantallaJuego.add(lblElVacioTerminaAqui);
-//		lblElVacioTerminaAqui.setBorder(new LineBorder(Color.BLACK, 2));
-//		lblElVacioTerminaAqui.setText(controlador.devolverElementoFinalMatriz());
 
 
 
@@ -92,9 +79,10 @@ public class Pantalla {
 		botonAyuda.setOpaque(false);
 		botonAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblCampoDeTextoAyuda.setText("<html>" + controlador.proximoMovimiento().replace("\n", "<br>") + 
-						"</html>");
+				setLabelMensajeAyuda(lblCampoDeTextoAyuda);
 			}
+
+			
 		});
 		botonAyuda.setFocusable(false);
 
@@ -107,7 +95,7 @@ public class Pantalla {
 		matrizDeNumerosVisible.setAutoscrolls(true);
 		matrizDeNumerosVisible.setFont(new Font("Arial Black", Font.PLAIN, 40));
 
-		matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
+		matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
 
 		lblContadorDeMovimientos = new JLabel("Contador: 0");
 		lblContadorDeMovimientos.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -131,15 +119,70 @@ public class Pantalla {
 		lblInstructivo.setBorder(new LineBorder(new Color(255, 128, 0), 2));
 		lblInstructivo.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		lblInstructivo.setText("<html>" + "Puedes moverte con las siguientes teclas: \n w=Arriba \n a=Izquierda \n s=Abajo \n d=Derecha".replace("\n", "<br>") + "</html>");
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-		);
+		//HJOLALDSLADAD
+		//GroupLayout groupLayout = crearGrupoDeElementosDePantallaPrincipal(panelPantallaJuego);
+		//GroupLayout gl_panelPantallaJuego = agruparElementoDelPanelPrincipal(panelPantallaJuego, lblCampoDeTextoAyuda);
+		setComponentesResponsiveEnPantallaPrincipal(panelPantallaJuego, lblCampoDeTextoAyuda);
+		
+
+
+
+		// ESCUCHAR INPUTS DEL TECLADO
+		pantallaPrincipal.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				char teclaPresionada = e.getKeyChar();
+				String caracterTeclaPresionada = String.valueOf(teclaPresionada);
+				
+				contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+
+
+				// Actualiza el texto en la matriz visible y en el 
+				matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
+				String contadorVisible = String.valueOf(contadorMovimientos);
+				lblContadorDeMovimientos.setText("Contador: " + contadorVisible);
+
+				if (logicaPuzzleNumeros.gano()) {
+					logicaPuzzleNumeros.imprimirGane();
+					
+				}
+			}		
+			@Override
+			public void keyReleased(KeyEvent e) 
+			{
+				// TODO Auto-generated method stub	
+			}
+
+		});
+
+		botonVolverAMenu.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				Menu menu = new Menu();
+
+				menu.setVisiblePantalla(true);
+				pantallaPrincipal.setVisible(false);
+				pantallaPrincipal.dispose();
+			}
+		}); 
+
+	}
+
+	private void setComponentesResponsiveEnPantallaPrincipal(JPanel panelPantallaJuego, JLabel lblCampoDeTextoAyuda) {
+		GroupLayout groupLayout = crearGrupoDeElementosDePantallaPrincipal(panelPantallaJuego);
+		GroupLayout gl_panelPantallaJuego = agruparElementoDelPanelPrincipal(panelPantallaJuego, lblCampoDeTextoAyuda);
+		panelPantallaJuego.setLayout(gl_panelPantallaJuego);
+		pantallaPrincipal.getContentPane().setLayout(groupLayout);
+	}
+	
+	private GroupLayout agruparElementoDelPanelPrincipal(JPanel panelPantallaJuego, JLabel lblCampoDeTextoAyuda) {
 		GroupLayout gl_panelPantallaJuego = new GroupLayout(panelPantallaJuego);
 		gl_panelPantallaJuego.setHorizontalGroup(
 			gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
@@ -181,67 +224,28 @@ public class Pantalla {
 						.addComponent(botonVolverAMenu)
 						.addComponent(botonAyuda)))
 		);
-		panelPantallaJuego.setLayout(gl_panelPantallaJuego);
-		frame.getContentPane().setLayout(groupLayout);
+		return gl_panelPantallaJuego;
+	}
 
-
-
-		// ESCUCHAR INPUTS DEL TECLADO
-		frame.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				char teclaPresionada = e.getKeyChar();
-				String caracterTeclaPresionada = String.valueOf(teclaPresionada);
-				botonVolverAMenu.setVisible(false);
-				contador = controlador.desplazarmeEnMatriz(caracterTeclaPresionada, contador);
-
-
-//				//Mantiene el borde configurado
-//				lblElVacioTerminaAqui.setBorder(new LineBorder(Color.BLACK, 2));
-//
-//				// Actualiza el texto del label recuadrado
-//				lblElVacioTerminaAqui.setText(controlador.devolverElementoFinalMatriz());
-
-				// Actualiza el texto en la matriz visible y en el 
-				matrizDeNumerosVisible.setText("<html>" + controlador.imprimirMatriz().replace("\n", "<br>") + "</html>");
-				String contadorVisible = String.valueOf(contador);
-				lblContadorDeMovimientos.setText("Contador: " + contadorVisible);
-
-				if (controlador.gano()) {
-					controlador.imprimirGane();
-					botonVolverAMenu.setVisible(true);
-				}
-			}		
-			@Override
-			public void keyReleased(KeyEvent e) 
-			{
-				// TODO Auto-generated method stub	
-			}
-
-		});
-
-		botonVolverAMenu.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				Menu menu = new Menu();
-
-				menu.setVisiblePantalla(true);
-				frame.setVisible(false);
-				frame.dispose();
-			}
-		}); 
-
+	private GroupLayout crearGrupoDeElementosDePantallaPrincipal(JPanel panelPantallaJuego) {
+		GroupLayout groupLayout = new GroupLayout(pantallaPrincipal.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+		);
+		return groupLayout;
 	}
 
 	public void setVisiblePantalla(boolean condicion) 
 	{
-		frame.setVisible(condicion);
+		pantallaPrincipal.setVisible(condicion);
+	}
+	private void setLabelMensajeAyuda(JLabel lblCampoDeTextoAyuda) {
+		lblCampoDeTextoAyuda.setText("<html>" + logicaPuzzleNumeros.proximoMovimiento().replace("\n", "<br>") + 
+				"</html>");
 	}
 }
