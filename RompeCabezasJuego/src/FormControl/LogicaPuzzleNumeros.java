@@ -53,23 +53,28 @@ public class LogicaPuzzleNumeros {
 	public String proximoMovimiento() {
 		StringBuilder sugerencia = new StringBuilder();
 		sugerencia.append("Te recomiendo lo siguiente: ").append(" ").append("\n");
-		//caso c+1
+
 		int auxFMenos = filaCasillaVacia -1;
 		int auxFMas = filaCasillaVacia +1;
 		int auxCMas = columnaCasillaVacia +1;
+
 		if(numeroDerechaMayorQueAbajo(auxFMas, auxCMas)	
-				&&numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) 
+				&& numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) 
 		{
 			int casillaDeArribaAux=this.matriz[auxFMenos][columnaCasillaVacia];
 			int casillaDeAbajoAux= this.matriz[auxFMas][columnaCasillaVacia];
-			if((casillaDeArribaAux>casillaDeAbajoAux)) {
+			if((casillaDeArribaAux>casillaDeAbajoAux)) 
+			{
 				sugerencia.append("Movete hacia Arriba").append(" ").append("\n");
 			}else{
 				sugerencia.append("Movete hacia Abajo").append(" ").append("\n");
 			}
-		}else {
-			//TO DO
-		}
+		}else if(numeroDerechaMayorQueAbajo(auxFMas, auxCMas)) {
+			sugerencia.append("Movete hacia Abajo").append(" ").append("\n");
+
+		}else if(numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) {
+			sugerencia.append("Movete hacia Arriba").append(" ").append("\n");
+		}			
 		return sugerencia.toString();
 	}
 
@@ -231,12 +236,32 @@ public class LogicaPuzzleNumeros {
 	private int incrementarContador(int contador) {
 		return ++contador;
 	}
-	public String devolverElementoFinalMatriz() {
-		int fila = 2;
-		int columna = 2;
-		int retorno = matriz[fila][columna];
-		StringBuilder sb = new StringBuilder(); 
-		sb.append(retorno);
-		return sb.toString();
+
+	public boolean estaSobrepasandoLosLimitesElMovimiento(String tecla) {
+		int fila = this.filaCasillaVacia;
+		int columna = this.columnaCasillaVacia;
+		//
+		if (tecla.equals("w")) {
+			if (fila-1<0) {
+				return false;
+			}
+		}
+		if (tecla.equals("s")) {
+			if (fila+1>matriz.length-1) {
+				return false;
+			}
+		}
+		if (tecla.equals("a")) {
+			if (columna-1<0) {
+				return false;
+			}
+		}
+		if (tecla.equals("d")) {
+			if (columna+1>matriz.length-1) {
+				return false;
+			}
+		}
+		return true;
 	}
+	
 }

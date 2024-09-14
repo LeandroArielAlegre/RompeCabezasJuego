@@ -146,9 +146,6 @@ public class PantallaPuzzleImagenes {
 		btnMensajeDeAyuda.setBounds(10, 67, 89, 23);
 		pantallaPrincipal.getContentPane().add(btnMensajeDeAyuda);
 
-
-
-
 		// INPUTS
 		// ESCUCHAR INPUTS DEL TECLADO
 		pantallaPrincipal.addKeyListener(new KeyListener() 

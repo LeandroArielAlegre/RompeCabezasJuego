@@ -2,10 +2,14 @@ package View;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import FormControl.LogicaPuzzleNumeros;
+import FormControl.Sonido;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -21,6 +25,7 @@ public class PantallaPuzzleNumeros {
 
 	private JFrame pantallaPrincipal;
 	private LogicaPuzzleNumeros logicaPuzzleNumeros;
+	private Sonido sonido;
 	private JLabel matrizDeNumerosVisible;
 	private JLabel lblContadorDeMovimientos;
 	private int contadorMovimientos = 0;
@@ -28,10 +33,6 @@ public class PantallaPuzzleNumeros {
 	private JButton botonAyuda;
 	private JLabel lblDondeTerminaElCasilleroVacio;
 	private JLabel lblInstructivo;
-
-	public void mostrarPantalla(boolean condicion) {
-		pantallaPrincipal.setVisible(condicion);
-	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -55,14 +56,14 @@ public class PantallaPuzzleNumeros {
 
 	private void inicializar() {
 		pantallaPrincipal = new JFrame();
-		logicaPuzzleNumeros = new LogicaPuzzleNumeros();
 		pantallaPrincipal.setBounds(150, 200, 390, 300);
 		pantallaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		logicaPuzzleNumeros = new LogicaPuzzleNumeros();
+		sonido = new Sonido();
+
 		JPanel panelPantallaJuego = new JPanel();
 		panelPantallaJuego.setBackground(new Color(128, 64, 0));
-
-
 
 		JLabel lblCampoDeTextoAyuda = new JLabel("");
 		lblCampoDeTextoAyuda.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -80,10 +81,9 @@ public class PantallaPuzzleNumeros {
 		botonAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setLabelMensajeAyuda(lblCampoDeTextoAyuda);
-			}
-
-			
+			}		
 		});
+
 		botonAyuda.setFocusable(false);
 
 		matrizDeNumerosVisible = new JLabel("");
@@ -119,13 +119,8 @@ public class PantallaPuzzleNumeros {
 		lblInstructivo.setBorder(new LineBorder(new Color(255, 128, 0), 2));
 		lblInstructivo.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		lblInstructivo.setText("<html>" + "Puedes moverte con las siguientes teclas: \n w=Arriba \n a=Izquierda \n s=Abajo \n d=Derecha".replace("\n", "<br>") + "</html>");
-		//HJOLALDSLADAD
-		//GroupLayout groupLayout = crearGrupoDeElementosDePantallaPrincipal(panelPantallaJuego);
-		//GroupLayout gl_panelPantallaJuego = agruparElementoDelPanelPrincipal(panelPantallaJuego, lblCampoDeTextoAyuda);
+
 		setComponentesResponsiveEnPantallaPrincipal(panelPantallaJuego, lblCampoDeTextoAyuda);
-		
-
-
 
 		// ESCUCHAR INPUTS DEL TECLADO
 		pantallaPrincipal.addKeyListener(new KeyListener() {
@@ -139,19 +134,38 @@ public class PantallaPuzzleNumeros {
 			public void keyPressed(KeyEvent e) {
 				char teclaPresionada = e.getKeyChar();
 				String caracterTeclaPresionada = String.valueOf(teclaPresionada);
+
+				ArrayList<String> teclas= new ArrayList<String>()
+				{
 				
-				contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+				private static final long serialVersionUID = -1760916167558614943L;
+				
+				};
 
+					teclas.add("w");
+					teclas.add("a");
+					teclas.add("s");
+					teclas.add("d");
+					if(teclas.contains(caracterTeclaPresionada)) 
+					{
+						int movimientosAnteriores = contadorMovimientos;
+						contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
 
-				// Actualiza el texto en la matriz visible y en el 
-				matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
-				String contadorVisible = String.valueOf(contadorMovimientos);
-				lblContadorDeMovimientos.setText("Contador: " + contadorVisible);
+						if (contadorMovimientos > movimientosAnteriores) 
+						{
+							sonido.reproducirSonido("/recursos/boton.wav", "boton");
+						}
+					}
 
-				if (logicaPuzzleNumeros.gano()) {
-					logicaPuzzleNumeros.imprimirGane();
-					
-				}
+					// Actualiza el texto en la matriz visible y en el 
+					matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
+					String contadorVisible = String.valueOf(contadorMovimientos);
+					lblContadorDeMovimientos.setText("Contador: " + contadorVisible);
+
+					if (logicaPuzzleNumeros.gano()) {
+						logicaPuzzleNumeros.imprimirGane();
+
+					}
 			}		
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -181,62 +195,62 @@ public class PantallaPuzzleNumeros {
 		panelPantallaJuego.setLayout(gl_panelPantallaJuego);
 		pantallaPrincipal.getContentPane().setLayout(groupLayout);
 	}
-	
+
 	private GroupLayout agruparElementoDelPanelPrincipal(JPanel panelPantallaJuego, JLabel lblCampoDeTextoAyuda) {
 		GroupLayout gl_panelPantallaJuego = new GroupLayout(panelPantallaJuego);
 		gl_panelPantallaJuego.setHorizontalGroup(
-			gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+				gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelPantallaJuego.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblContadorDeMovimientos, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-						.addComponent(matrizDeNumerosVisible, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
-					.addGap(24)
-					.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDondeTerminaElCasilleroVacio, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-						.addComponent(lblCampoDeTextoAyuda, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-						.addComponent(lblInstructivo, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
-					.addGap(10))
+						.addGap(10)
+						.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblContadorDeMovimientos, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+								.addComponent(matrizDeNumerosVisible, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+						.addGap(24)
+						.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblDondeTerminaElCasilleroVacio, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+								.addComponent(lblCampoDeTextoAyuda, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+								.addComponent(lblInstructivo, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
+						.addGap(10))
 				.addGroup(gl_panelPantallaJuego.createSequentialGroup()
-					.addComponent(botonVolverAMenu, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-					.addGap(90)
-					.addComponent(botonAyuda, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-		);
+						.addComponent(botonVolverAMenu, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addGap(90)
+						.addComponent(botonAyuda, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+				);
 		gl_panelPantallaJuego.setVerticalGroup(
-			gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+				gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelPantallaJuego.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelPantallaJuego.createSequentialGroup()
-							.addGap(4)
-							.addComponent(lblContadorDeMovimientos, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-							.addGap(13)
-							.addComponent(matrizDeNumerosVisible, GroupLayout.PREFERRED_SIZE, 170, Short.MAX_VALUE)
-							.addGap(6))
-						.addGroup(gl_panelPantallaJuego.createSequentialGroup()
-							.addComponent(lblDondeTerminaElCasilleroVacio, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-							.addGap(11)
-							.addComponent(lblCampoDeTextoAyuda, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-							.addGap(10)
-							.addComponent(lblInstructivo, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
-					.addGap(5)
-					.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
-						.addComponent(botonVolverAMenu)
-						.addComponent(botonAyuda)))
-		);
+						.addGap(11)
+						.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelPantallaJuego.createSequentialGroup()
+										.addGap(4)
+										.addComponent(lblContadorDeMovimientos, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+										.addGap(13)
+										.addComponent(matrizDeNumerosVisible, GroupLayout.PREFERRED_SIZE, 170, Short.MAX_VALUE)
+										.addGap(6))
+								.addGroup(gl_panelPantallaJuego.createSequentialGroup()
+										.addComponent(lblDondeTerminaElCasilleroVacio, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+										.addGap(11)
+										.addComponent(lblCampoDeTextoAyuda, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+										.addGap(10)
+										.addComponent(lblInstructivo, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+						.addGap(5)
+						.addGroup(gl_panelPantallaJuego.createParallelGroup(Alignment.LEADING)
+								.addComponent(botonVolverAMenu)
+								.addComponent(botonAyuda)))
+				);
 		return gl_panelPantallaJuego;
 	}
 
 	private GroupLayout crearGrupoDeElementosDePantallaPrincipal(JPanel panelPantallaJuego) {
 		GroupLayout groupLayout = new GroupLayout(pantallaPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
-		);
+				);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(panelPantallaJuego, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-		);
+				);
 		return groupLayout;
 	}
 
