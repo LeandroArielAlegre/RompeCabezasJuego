@@ -339,6 +339,32 @@ public class LogicaPuzzleImagenes
 	{
 		return this.MatrizDesordenada;
 	}
+	public boolean estaSobrepasandoLosLimitesElMovimiento(String tecla) {
+		int fila = this.filaDelCasilleroVacio;
+		int columna = this.columnaDelCasilleroVacio;
+		//
+		if (tecla.equals("w")) {
+			if (fila-1<0) {
+				return false;
+			}
+		}
+		if (tecla.equals("s")) {
+			if (fila+1>this.MatrizDesordenada.length-1) {
+				return false;
+			}
+		}
+		if (tecla.equals("a")) {
+			if (columna-1<0) {
+				return false;
+			}
+		}
+		if (tecla.equals("d")) {
+			if (columna+1>this.MatrizDesordenada.length-1) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public int getFilaVacio() {
 		return filaDelCasilleroVacio;

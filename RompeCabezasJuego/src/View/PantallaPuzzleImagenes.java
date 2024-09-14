@@ -7,6 +7,8 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import FormControl.LogicaPuzzleImagenes;
+import FormControl.Sonido;
+
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -24,6 +27,7 @@ import javax.swing.border.EtchedBorder;
 public class PantallaPuzzleImagenes {
 	private LogicaPuzzleImagenes logicaPuzzleImagenes;
 	private JFrame pantallaPrincipal;
+	private Sonido sonido;
 	private BufferedImage[][] matrizImagenes;
 	private JLabel [][] labelsImagenesRecortadas = new JLabel[3][3];
 	private int contadorMovimientos = 0;
@@ -43,13 +47,15 @@ public class PantallaPuzzleImagenes {
 	private void initialize() 
 	{
 		logicaPuzzleImagenes = new LogicaPuzzleImagenes();
-
+		sonido = new Sonido();
 		pantallaPrincipal = new JFrame();
 		pantallaPrincipal.setResizable(false);
 		pantallaPrincipal.setBounds(100, 100, 705, 516);
 		pantallaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pantallaPrincipal.getContentPane().setLayout(null);
 		pantallaPrincipal.getContentPane().setBackground(new Color(250, 250, 150));
+		
+		setIconoDeVentana();
 
 		JComboBox<String> comboBoxSeleccionImagenes = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
 		comboBoxSeleccionImagenes.setFocusable(false);
@@ -176,6 +182,36 @@ public class PantallaPuzzleImagenes {
 
 					comboBoxSeleccionImagenes.setVisible(false);
 					btnImagen.setVisible(false);
+					
+					/*
+					//Sonido
+					char teclaPresionada = e.getKeyChar();
+					String caracterTeclaPresionada = String.valueOf(teclaPresionada);
+
+					ArrayList<String> teclasPermitidas= new ArrayList<String>()
+					{
+					
+					private static final long serialVersionUID = -1760916167558614943L;
+					
+					};
+					teclasPermitidas.add("w");
+					teclasPermitidas.add("a");
+					teclasPermitidas.add("s");
+					teclasPermitidas.add("d");
+					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
+					{
+						int movimientosAnteriores = contadorMovimientos;
+						contadorMovimientos = logicaPuzzleImagenes.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+
+						if (contadorMovimientos > movimientosAnteriores) 
+						{
+							sonido.reproducirSonido("/recursos/boton.wav", "boton");
+						}
+					
+					} */
+					
+					
+					
 
 					if (logicaPuzzleImagenes.gano()) 
 					{
@@ -186,7 +222,8 @@ public class PantallaPuzzleImagenes {
 					}
 				
 				}
-					
+				
+				
 				}
 				
 			@Override
@@ -195,6 +232,11 @@ public class PantallaPuzzleImagenes {
 				// TODO Auto-generated method stub
 			}
 		});
+	}
+
+	private void setIconoDeVentana() {
+		Image icon = new ImageIcon(getClass().getResource("/recursos/icono.png")).getImage();	
+		pantallaPrincipal.setIconImage(icon);
 	}
 
 	public void setVisiblePantalla(boolean condicion) 
@@ -285,8 +327,11 @@ public class PantallaPuzzleImagenes {
 		}
 	}
 	
+	
+	
 	private void setLabelMensajeAyuda(JLabel labelMensajeDeSugerencia) {
 		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzleImagenes.proximoMovimiento().replace("\n", "<br>") + "</html>");
 	}
+	
 	
 }

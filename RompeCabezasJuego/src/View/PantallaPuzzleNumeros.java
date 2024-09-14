@@ -11,6 +11,7 @@ import FormControl.LogicaPuzzleNumeros;
 import FormControl.Sonido;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -18,6 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Cursor;
 
@@ -61,6 +63,8 @@ public class PantallaPuzzleNumeros {
 
 		logicaPuzzleNumeros = new LogicaPuzzleNumeros();
 		sonido = new Sonido();
+		
+		setIconoDeVentana();
 
 		JPanel panelPantallaJuego = new JPanel();
 		panelPantallaJuego.setBackground(new Color(128, 64, 0));
@@ -135,18 +139,18 @@ public class PantallaPuzzleNumeros {
 				char teclaPresionada = e.getKeyChar();
 				String caracterTeclaPresionada = String.valueOf(teclaPresionada);
 
-				ArrayList<String> teclas= new ArrayList<String>()
+				ArrayList<String> teclasPermitidas= new ArrayList<String>()
 				{
 				
 				private static final long serialVersionUID = -1760916167558614943L;
 				
 				};
 
-					teclas.add("w");
-					teclas.add("a");
-					teclas.add("s");
-					teclas.add("d");
-					if(teclas.contains(caracterTeclaPresionada)) 
+					teclasPermitidas.add("w");
+					teclasPermitidas.add("a");
+					teclasPermitidas.add("s");
+					teclasPermitidas.add("d");
+					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
 					{
 						int movimientosAnteriores = contadorMovimientos;
 						contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
@@ -187,6 +191,11 @@ public class PantallaPuzzleNumeros {
 			}
 		}); 
 
+	}
+
+	private void setIconoDeVentana() {
+		Image icon = new ImageIcon(getClass().getResource("/recursos/icono.png")).getImage();	
+		pantallaPrincipal.setIconImage(icon);
 	}
 
 	private void setComponentesResponsiveEnPantallaPrincipal(JPanel panelPantallaJuego, JLabel lblCampoDeTextoAyuda) {

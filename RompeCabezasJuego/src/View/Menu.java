@@ -5,11 +5,17 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 
 import FormControl.Sonido;
@@ -67,6 +73,9 @@ public class Menu {
 		pantallaMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pantallaMenu.getContentPane().setLayout(null);
 		pantallaMenu.getContentPane().setBackground(new Color(172, 242, 183));
+		
+		setIconoDeVentana();
+		
 		//Cancion
 		
 		sonido.reproducirSonido("/recursos/menu.wav", "menu");
@@ -118,5 +127,10 @@ public class Menu {
 		labelNombreDelJuego.setFont(new Font("Snap ITC", Font.PLAIN, 20));
 		labelNombreDelJuego.setBounds(20, 10, 341, 47);
 		pantallaMenu.getContentPane().add(labelNombreDelJuego);
+	}
+	private void setIconoDeVentana() {
+		//Ventana Icono
+		Image icon = new ImageIcon(getClass().getResource("/recursos/icono.png")).getImage();	
+		pantallaMenu.setIconImage(icon);
 	}
 }
