@@ -169,7 +169,32 @@ public class PantallaPuzzleImagenes {
 					char tecla = e.getKeyChar();
 					String teclaS1 =String.valueOf(tecla);
 
-					contadorMovimientos = logicaPuzzleImagenes.desplazarmeEnMatriz(teclaS1, contadorMovimientos);
+			
+					//Sonido
+					char teclaPresionada = e.getKeyChar();
+					String caracterTeclaPresionada = String.valueOf(teclaPresionada);
+
+					ArrayList<String> teclasPermitidas= new ArrayList<String>()
+					{
+					
+					private static final long serialVersionUID = -1760916167558614943L;
+					
+					};
+					teclasPermitidas.add("w");
+					teclasPermitidas.add("a");
+					teclasPermitidas.add("s");
+					teclasPermitidas.add("d");
+					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
+					{
+						int movimientosAnteriores = contadorMovimientos;
+						contadorMovimientos = logicaPuzzleImagenes.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+
+						if (contadorMovimientos > movimientosAnteriores) 
+						{
+							sonido.reproducirSonido("/recursos/boton.wav", "boton");
+						}
+					
+					} 
 
 					actualizarMatrizMostradaPorPantalla(logicaPuzzleImagenes.getMatrizDesordenada(), labelsImagenesRecortadas);
 
@@ -183,8 +208,8 @@ public class PantallaPuzzleImagenes {
 					comboBoxSeleccionImagenes.setVisible(false);
 					btnImagen.setVisible(false);
 					
-					/*
-					//Sonido
+					
+					/*//Sonido
 					char teclaPresionada = e.getKeyChar();
 					String caracterTeclaPresionada = String.valueOf(teclaPresionada);
 
