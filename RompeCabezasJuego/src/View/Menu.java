@@ -5,16 +5,16 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.imageio.ImageIO;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
+
 
 import javax.swing.SwingConstants;
 

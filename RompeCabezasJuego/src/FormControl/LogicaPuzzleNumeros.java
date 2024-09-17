@@ -237,31 +237,5 @@ public class LogicaPuzzleNumeros {
 		return ++contador;
 	}
 
-	public boolean estaSobrepasandoLosLimitesElMovimiento(String tecla) {
-		int fila = this.filaCasillaVacia;
-		int columna = this.columnaCasillaVacia;
-		//
-		if (tecla.equals("w")) {
-			if (fila-1<0) {
-				return false;
-			}
-		}
-		if (tecla.equals("s")) {
-			if (fila+1>matriz.length-1) {
-				return false;
-			}
-		}
-		if (tecla.equals("a")) {
-			if (columna-1<0) {
-				return false;
-			}
-		}
-		if (tecla.equals("d")) {
-			if (columna+1>matriz.length-1) {
-				return false;
-			}
-		}
-		return true;
-	}
 	
 }
