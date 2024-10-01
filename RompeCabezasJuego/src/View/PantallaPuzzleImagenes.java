@@ -1,4 +1,3 @@
-
 package View;
 
 import java.awt.Color;
@@ -6,7 +5,9 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import FormControl.LogicaPuzzleImagenes;
+import javax.swing.JOptionPane;
+
+import FormControl.LogicaPuzzle;
 import FormControl.Sonido;
 
 import javax.swing.JButton;
@@ -25,7 +26,8 @@ import java.awt.Component;
 import javax.swing.border.EtchedBorder;
 
 public class PantallaPuzzleImagenes {
-	private LogicaPuzzleImagenes logicaPuzzleImagenes;
+	
+	private LogicaPuzzle logicaPuzzle;
 	private JFrame pantallaPrincipal;
 	private Sonido sonido;
 	private BufferedImage[][] matrizImagenes;
@@ -46,7 +48,7 @@ public class PantallaPuzzleImagenes {
 	 */
 	private void initialize() 
 	{
-		logicaPuzzleImagenes = new LogicaPuzzleImagenes();
+		logicaPuzzle = new LogicaPuzzle();
 		sonido = new Sonido();
 		pantallaPrincipal = new JFrame();
 		pantallaPrincipal.setResizable(false);
@@ -54,7 +56,7 @@ public class PantallaPuzzleImagenes {
 		pantallaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pantallaPrincipal.getContentPane().setLayout(null);
 		pantallaPrincipal.getContentPane().setBackground(new Color(250, 250, 150));
-		
+
 		setIconoDeVentana();
 
 		JComboBox<String> comboBoxSeleccionImagenes = new JComboBox<>(new String[] {"Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4","Imagen 5"});
@@ -79,9 +81,9 @@ public class PantallaPuzzleImagenes {
 					//Leo la imagen dentro del proyecto
 					BufferedImage imagenOriginal = ImageIO.read(PantallaPuzzleImagenes.class.getResourceAsStream(rutaImagenPuzzle[indexArrayRutaImagen]));
 					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
-					matrizImagenes = logicaPuzzleImagenes.cortarImagen(imagenOriginal,"desordenada");
-					logicaPuzzleImagenes.cortarImagen(imagenOriginal,"ordenada");
-					logicaPuzzleImagenes.mezclarMatriz();
+					matrizImagenes = logicaPuzzle.cortarImagen(imagenOriginal,"desordenada");
+					logicaPuzzle.cortarImagen(imagenOriginal,"ordenada");
+					logicaPuzzle.mezclarMatrizImagenes();
 
 					setRompecabezas(matrizImagenes, labelsImagenesRecortadas);
 
@@ -143,11 +145,11 @@ public class PantallaPuzzleImagenes {
 		btnMensajeDeAyuda.setFocusable(false);
 		btnMensajeDeAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logicaPuzzleImagenes.proximoMovimiento();
+				logicaPuzzle.proximoMovimientoImagenes();
 				setLabelMensajeAyuda(labelMensajeDeSugerencia);
 			}
 
-			
+
 		});
 		btnMensajeDeAyuda.setBounds(10, 67, 89, 23);
 		pantallaPrincipal.getContentPane().add(btnMensajeDeAyuda);
@@ -169,16 +171,16 @@ public class PantallaPuzzleImagenes {
 					//char tecla = e.getKeyChar();
 					//String teclaS1 =String.valueOf(tecla);
 
-			
+
 					//Sonido
 					char teclaPresionada = e.getKeyChar();
 					String caracterTeclaPresionada = String.valueOf(teclaPresionada);
 
 					ArrayList<String> teclasPermitidas= new ArrayList<String>()
 					{
-					
-					private static final long serialVersionUID = -1760916167558614943L;
-					
+
+						private static final long serialVersionUID = -1760916167558614943L;
+
 					};
 					teclasPermitidas.add("w");
 					teclasPermitidas.add("a");
@@ -187,40 +189,36 @@ public class PantallaPuzzleImagenes {
 					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
 					{
 						int movimientosAnteriores = contadorMovimientos;
-						contadorMovimientos = logicaPuzzleImagenes.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+						contadorMovimientos = logicaPuzzle.desplazarmeEnMatrizImagen(caracterTeclaPresionada, contadorMovimientos);
 
 						if (contadorMovimientos > movimientosAnteriores) 
 						{
 							sonido.reproducirSonido("/recursos/boton.wav", "boton");
 						}
-					
+
 					} 
 
-					actualizarMatrizMostradaPorPantalla(logicaPuzzleImagenes.getMatrizDesordenada(), labelsImagenesRecortadas);
+					actualizarMatrizMostradaPorPantalla(logicaPuzzle.getMatrizDesordenada(), labelsImagenesRecortadas);
 
-					labelsImagenesRecortadas[logicaPuzzleImagenes.getFilaVacio()][logicaPuzzleImagenes.getColVacio()].setIcon(null);
-					labelsImagenesRecortadas[logicaPuzzleImagenes.getFilaVacio()][logicaPuzzleImagenes.getColVacio()].setOpaque(true);
-					labelsImagenesRecortadas[logicaPuzzleImagenes.getFilaVacio()][logicaPuzzleImagenes.getColVacio()].setBackground(new Color(160,70,80));
+					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setIcon(null);
+					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setOpaque(true);
+					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setBackground(new Color(160,70,80));
 
 					labelContadorDeMovimentos.setVisible(true);
 					labelContadorDeMovimentos.setText("Contador de Movimentos:" + contadorMovimientos);				
 
 					comboBoxSeleccionImagenes.setVisible(false);
 					btnImagen.setVisible(false);
-					
-					if (logicaPuzzleImagenes.gano()) 
+
+					if (logicaPuzzle.ganoImagenes()) 
 					{
-						logicaPuzzleImagenes.imprimirGane();
+						JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
+
 						labelContadorDeMovimentos.setText("Contador de Movimentos: 0");
 						labelContadorDeMovimentos.setVisible(false);
-						
 					}
-				
-				}
-				
-				
-				}
-				
+				}				
+			}			
 			@Override
 			public void keyReleased(KeyEvent e) 
 			{
@@ -237,7 +235,7 @@ public class PantallaPuzzleImagenes {
 	public void setVisiblePantalla(boolean condicion) 
 	{
 		pantallaPrincipal.setVisible(condicion);
-		
+
 	}
 
 	public static void main(String[] args) 
@@ -321,12 +319,12 @@ public class PantallaPuzzleImagenes {
 
 		}
 	}
-	
-	
-	
+
+
+
 	private void setLabelMensajeAyuda(JLabel labelMensajeDeSugerencia) {
-		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzleImagenes.proximoMovimiento().replace("\n", "<br>") + "</html>");
+		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzle.proximoMovimientoImagenes().replace("\n", "<br>") + "</html>");
 	}
-	
-	
+
+
 }

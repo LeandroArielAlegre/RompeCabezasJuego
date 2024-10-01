@@ -1,4 +1,3 @@
-
 package View;
 
 import java.awt.Color;
@@ -33,6 +32,7 @@ public class Menu {
 	public void setPantalla(PantallaPuzzleImagenes pantallaImagen) {
 		this.pantallaPuzzleImagenes = pantallaImagen;
 	}
+	
 	public void setPantalla(PantallaPuzzleNumeros pantalla) {
 		this.pantallaPuzzleNumeros = pantalla;
 	}
@@ -128,6 +128,7 @@ public class Menu {
 		labelNombreDelJuego.setBounds(20, 10, 341, 47);
 		pantallaMenu.getContentPane().add(labelNombreDelJuego);
 	}
+	
 	private void setIconoDeVentana() {
 		//Ventana Icono
 		Image icon = new ImageIcon(getClass().getResource("/recursos/icono.png")).getImage();	

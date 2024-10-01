@@ -1,4 +1,5 @@
 package View;
+
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,7 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import FormControl.LogicaPuzzleNumeros;
+import javax.swing.JOptionPane;
+
+import FormControl.LogicaPuzzle;
 import FormControl.Sonido;
 
 import java.awt.Font;
@@ -26,7 +29,7 @@ import java.awt.Cursor;
 public class PantallaPuzzleNumeros {
 
 	private JFrame pantallaPrincipal;
-	private LogicaPuzzleNumeros logicaPuzzleNumeros;
+	private LogicaPuzzle logicaPuzzleNumeros;
 	private Sonido sonido;
 	private JLabel matrizDeNumerosVisible;
 	private JLabel lblContadorDeMovimientos;
@@ -61,7 +64,7 @@ public class PantallaPuzzleNumeros {
 		pantallaPrincipal.setBounds(150, 200, 390, 300);
 		pantallaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		logicaPuzzleNumeros = new LogicaPuzzleNumeros();
+		logicaPuzzleNumeros = new LogicaPuzzle();
 		sonido = new Sonido();
 		
 		setIconoDeVentana();
@@ -99,7 +102,7 @@ public class PantallaPuzzleNumeros {
 		matrizDeNumerosVisible.setAutoscrolls(true);
 		matrizDeNumerosVisible.setFont(new Font("Arial Black", Font.PLAIN, 40));
 
-		matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
+		matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatrizNumeros().replace("\n", "<br>") + "</html>");
 
 		lblContadorDeMovimientos = new JLabel("Contador: 0");
 		lblContadorDeMovimientos.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -153,7 +156,7 @@ public class PantallaPuzzleNumeros {
 					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
 					{
 						int movimientosAnteriores = contadorMovimientos;
-						contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
+						contadorMovimientos = logicaPuzzleNumeros.desplazarmeEnMatrizNumeros(caracterTeclaPresionada, contadorMovimientos);
 
 						if (contadorMovimientos > movimientosAnteriores) 
 						{
@@ -162,13 +165,12 @@ public class PantallaPuzzleNumeros {
 					}
 
 					// Actualiza el texto en la matriz visible y en el 
-					matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatriz().replace("\n", "<br>") + "</html>");
+					matrizDeNumerosVisible.setText("<html>" + logicaPuzzleNumeros.imprimirMatrizNumeros().replace("\n", "<br>") + "</html>");
 					String contadorVisible = String.valueOf(contadorMovimientos);
 					lblContadorDeMovimientos.setText("Contador: " + contadorVisible);
 
-					if (logicaPuzzleNumeros.gano()) {
-						logicaPuzzleNumeros.imprimirGane();
-
+					if (logicaPuzzleNumeros.ganoNumeros()) {
+							JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
 					}
 			}		
 			@Override
@@ -267,8 +269,9 @@ public class PantallaPuzzleNumeros {
 	{
 		pantallaPrincipal.setVisible(condicion);
 	}
+	
 	private void setLabelMensajeAyuda(JLabel lblCampoDeTextoAyuda) {
-		lblCampoDeTextoAyuda.setText("<html>" + logicaPuzzleNumeros.proximoMovimiento().replace("\n", "<br>") + 
+		lblCampoDeTextoAyuda.setText("<html>" + logicaPuzzleNumeros.proximoMovimientoNumeros().replace("\n", "<br>") + 
 				"</html>");
 	}
 }
