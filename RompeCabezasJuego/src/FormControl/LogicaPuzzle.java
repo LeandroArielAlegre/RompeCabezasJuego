@@ -1,7 +1,6 @@
 package FormControl;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,16 +13,16 @@ public class LogicaPuzzle {
 	private int columnaCasillaVacia = 2;
 	private int numeroRepresentativoDeVacio=0;
 	
-	private BufferedImage[][] MatrizDesordenada;
-	private BufferedImage[][] MatrizOrdenada;
-	private int filaDelCasilleroVacio = 2;
-	private int columnaDelCasilleroVacio = 2;
+	//private BufferedImage[][] MatrizDesordenada;
+	//private BufferedImage[][] MatrizOrdenada;
+	//private int filaDelCasilleroVacio = 2;
+	//private int columnaDelCasilleroVacio = 2;
 	
 	public LogicaPuzzle() {
-		inicializarMatrizNumeros();
+		inicializarMatriz();
 	}
 
-	private void mezclarMatrizNumeros() 
+	public void mezclarMatriz() 
 	{
 		Random indiceAleatorio = new Random();
 		String[] movimientosEnTablero = {"w", "a", "s", "d"};
@@ -31,14 +30,14 @@ public class LogicaPuzzle {
 		for (int cantidadMovimientosAleatorios = 0; cantidadMovimientosAleatorios < 1000; cantidadMovimientosAleatorios++) 
 		{
 			String direccionDeMovimiento = movimientosEnTablero[indiceAleatorio.nextInt(movimientosEnTablero.length)];
-			desplazarmeEnMatrizNumeros(direccionDeMovimiento, 0);
+			desplazarmeEnMatriz(direccionDeMovimiento, 0);
 		}
 	}
 
-	private void inicializarMatrizNumeros() 
+	private void inicializarMatriz() 
 	{
 		List<Integer> numerosDeMatriz = new ArrayList<>();
-		for (int numero = 1; numero <= 8; numero++) {
+		for (int numero = 0; numero <= 9; numero++) {
 			numerosDeMatriz.add(numero);
 		}
 		numerosDeMatriz.add(numeroRepresentativoDeVacio);
@@ -54,10 +53,10 @@ public class LogicaPuzzle {
 				}
 			}
 		}
-		mezclarMatrizNumeros();
+		mezclarMatriz();
 	}
 
-	public String proximoMovimientoNumeros() {
+	public String proximoMovimiento() {
 		StringBuilder sugerencia = new StringBuilder();
 		sugerencia.append("Te recomiendo lo siguiente: ").append(" ").append("\n");
 
@@ -86,8 +85,8 @@ public class LogicaPuzzle {
 	}
 
 	private boolean numeroDerechaMayorQueArriba(int auxFMenos, int auxCMas) {
-		if(existePosicionEnMatrizNumeros(filaCasillaVacia,auxCMas) && 
-				existePosicionEnMatrizNumeros(auxFMenos ,columnaCasillaVacia)) {
+		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+				existePosicionEnMatriz(auxFMenos ,columnaCasillaVacia)) {
 			//Cual de ambos es mayor:
 			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMenos][columnaCasillaVacia]) {
 				//Si el antecedente "auxFMenos" es menor a auxCMas... recomiendo moverme hacia abajo
@@ -98,8 +97,8 @@ public class LogicaPuzzle {
 	}
 
 	private boolean numeroDerechaMayorQueAbajo(int auxFMas, int auxCMas) {
-		if(existePosicionEnMatrizNumeros(filaCasillaVacia,auxCMas) && 
-				existePosicionEnMatrizNumeros(auxFMas ,columnaCasillaVacia)) {
+		if(existePosicionEnMatriz(filaCasillaVacia,auxCMas) && 
+				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
 			//Cual de ambos es mayor:
 			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
 				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
@@ -109,7 +108,7 @@ public class LogicaPuzzle {
 		return false;
 	}
 
-	private boolean existePosicionEnMatrizNumeros(int fila, int columna) {
+	private boolean existePosicionEnMatriz(int fila, int columna) {
 		if((columna  <= this.matriz.length - 1 && columna  >= 0) && (fila <= this.matriz.length - 1 && fila >= 0) ) {
 			return true;
 
@@ -117,7 +116,7 @@ public class LogicaPuzzle {
 		return false;
 	}
 
-	public int desplazarmeEnMatrizNumeros(String tecla, int contador) 
+	public int desplazarmeEnMatriz(String tecla, int contador) 
 	{
 		int fila = this.filaCasillaVacia;
 		int columna = this.columnaCasillaVacia;
@@ -135,7 +134,7 @@ public class LogicaPuzzle {
 		{
 			if (columna > 0) 
 			{
-				moverIzquierdaNumeros(fila,columna,auxiliarIntercambio);
+				moverIzquierda(fila,columna,auxiliarIntercambio);
 				contador = incrementarContador(contador);
 				return contador;
 			}	
@@ -143,7 +142,7 @@ public class LogicaPuzzle {
 		if(tecla.equals("s")) {
 			if (fila < matriz.length - 1) 
 			{
-				moverAbajoNumeros(fila,columna,auxiliarIntercambio);
+				moverAbajo(fila,columna,auxiliarIntercambio);
 				contador = incrementarContador(contador);
 				return contador;
 
@@ -162,7 +161,7 @@ public class LogicaPuzzle {
 		return contador;
 	}
 
-	private void moverIzquierdaNumeros(int fila, int columna, int auxiliarIntercambio) 
+	private void moverIzquierda(int fila, int columna, int auxiliarIntercambio) 
 	{
 		auxiliarIntercambio = matriz[fila][columna - 1];
 		matriz[fila][columna - 1] = matriz[fila][columna];
@@ -170,7 +169,7 @@ public class LogicaPuzzle {
 		this.columnaCasillaVacia--;
 	}
 
-	private void moverAbajoNumeros(int fila, int columna, int auxiliarIntercambio) 
+	private void moverAbajo(int fila, int columna, int auxiliarIntercambio) 
 	{
 
 		auxiliarIntercambio = matriz[fila + 1][columna];
@@ -195,7 +194,7 @@ public class LogicaPuzzle {
 		this.columnaCasillaVacia++;
 	}
 
-	public String imprimirMatrizNumeros() 
+	public String imprimirMatriz() 
 	{
 		StringBuilder sb = new StringBuilder();
 		int aux=0;
@@ -215,12 +214,12 @@ public class LogicaPuzzle {
 		return sb.toString();
 	}
 
-	public int[][] getMatrizNumeros() 
+	public int[][] getMatriz() 
 	{
 		return this.matriz;
 	}
 	
-	public boolean ganoNumeros() 
+	public boolean gano() 
 	{
 		for (int i = 0; i < matriz.length; i++) 
 		{
@@ -243,6 +242,7 @@ public class LogicaPuzzle {
 		return ++contador;
 	}
 
+	/*
 	public void mezclarMatrizImagenes() 
 	{
 		Random indiceAleatorio = new Random();
@@ -287,7 +287,9 @@ public class LogicaPuzzle {
 		}
 		return null;
 	}
-
+*/
+	
+	/*
 	public String proximoMovimientoImagenes() 
 	{	
 		StringBuilder sugerencia = new StringBuilder();
@@ -406,6 +408,7 @@ public class LogicaPuzzle {
 		}
 	}
 
+	
 	private Point devolverPosicionEnMatrizImagen(BufferedImage imagen) 
 	{
 		Point indicePosicion;
@@ -565,4 +568,5 @@ public class LogicaPuzzle {
 	public int getColVacio() {
 		return columnaDelCasilleroVacio;
 	}
+	*/
 }

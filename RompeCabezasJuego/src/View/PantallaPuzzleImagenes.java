@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 import FormControl.LogicaPuzzle;
 import FormControl.Sonido;
-
+import View.ImagenesAuxiliar;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,6 +19,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -31,9 +32,11 @@ public class PantallaPuzzleImagenes {
 	private JFrame pantallaPrincipal;
 	private Sonido sonido;
 	private BufferedImage[][] matrizImagenes;
+	private HashMap<Integer, BufferedImage> hashMapImagenes;
 	private JLabel [][] labelsImagenesRecortadas = new JLabel[3][3];
 	private int contadorMovimientos = 0;
 	private boolean estaJuegoIniciado = false;
+	private ImagenesAuxiliar  imagenesAuxiliar;
 
 	/**
 	 * Create the application.
@@ -50,6 +53,7 @@ public class PantallaPuzzleImagenes {
 	{
 		logicaPuzzle = new LogicaPuzzle();
 		sonido = new Sonido();
+		imagenesAuxiliar = new ImagenesAuxiliar();
 		pantallaPrincipal = new JFrame();
 		pantallaPrincipal.setResizable(false);
 		pantallaPrincipal.setBounds(100, 100, 705, 516);
@@ -81,9 +85,9 @@ public class PantallaPuzzleImagenes {
 					//Leo la imagen dentro del proyecto
 					BufferedImage imagenOriginal = ImageIO.read(PantallaPuzzleImagenes.class.getResourceAsStream(rutaImagenPuzzle[indexArrayRutaImagen]));
 					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
-					matrizImagenes = logicaPuzzle.cortarImagen(imagenOriginal,"desordenada");
-					logicaPuzzle.cortarImagen(imagenOriginal,"ordenada");
-					logicaPuzzle.mezclarMatrizImagenes();
+					hashMapImagenes = imagenesAuxiliar.getHashMapImagenesCortadas();
+					imagenesAuxiliar.cortarImagen(imagenOriginal);
+					logicaPuzzle.mezclarMatriz();
 
 					setRompecabezas(matrizImagenes, labelsImagenesRecortadas);
 
@@ -145,7 +149,7 @@ public class PantallaPuzzleImagenes {
 		btnMensajeDeAyuda.setFocusable(false);
 		btnMensajeDeAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logicaPuzzle.proximoMovimientoImagenes();
+				//logicaPuzzle.proximoMovimientoImagenes();
 				setLabelMensajeAyuda(labelMensajeDeSugerencia);
 			}
 
@@ -189,7 +193,7 @@ public class PantallaPuzzleImagenes {
 					if(teclasPermitidas.contains(caracterTeclaPresionada)) 
 					{
 						int movimientosAnteriores = contadorMovimientos;
-						contadorMovimientos = logicaPuzzle.desplazarmeEnMatrizImagen(caracterTeclaPresionada, contadorMovimientos);
+						contadorMovimientos = logicaPuzzle.desplazarmeEnMatriz(caracterTeclaPresionada, contadorMovimientos);
 
 						if (contadorMovimientos > movimientosAnteriores) 
 						{
@@ -210,7 +214,7 @@ public class PantallaPuzzleImagenes {
 					comboBoxSeleccionImagenes.setVisible(false);
 					btnImagen.setVisible(false);
 
-					if (logicaPuzzle.ganoImagenes()) 
+					if (logicaPuzzle.gano()) 
 					{
 						JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
 
@@ -323,7 +327,7 @@ public class PantallaPuzzleImagenes {
 
 
 	private void setLabelMensajeAyuda(JLabel labelMensajeDeSugerencia) {
-		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzle.proximoMovimientoImagenes().replace("\n", "<br>") + "</html>");
+		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzle.proximoMovimiento().replace("\n", "<br>") + "</html>");
 	}
 
 
