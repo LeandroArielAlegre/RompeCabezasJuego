@@ -118,7 +118,7 @@ public class PantallaPuzzleNumeros {
 		lblDondeTerminaElCasilleroVacio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDondeTerminaElCasilleroVacio.setOpaque(true);
 		lblDondeTerminaElCasilleroVacio.setBorder(new LineBorder(new Color(255, 128, 64), 2));
-		lblDondeTerminaElCasilleroVacio.setText("<html>" + "El casillero vacio representado con el numero 0 debe terminar en la esquina superior izquierda".replace("\n", "<br>") + "</html>");
+		lblDondeTerminaElCasilleroVacio.setText("<html>" + "El casillero vacio representado con el cuadrado debe terminar en la esquina superior izquierda".replace("\n", "<br>") + "</html>");
 
 		lblInstructivo = new JLabel();
 		lblInstructivo.setOpaque(true);
