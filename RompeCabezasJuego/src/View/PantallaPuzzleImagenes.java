@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 import FormControl.LogicaPuzzle;
 import FormControl.Sonido;
-import View.ImagenesAuxiliar;
+
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -27,17 +27,33 @@ import java.awt.Component;
 import javax.swing.border.EtchedBorder;
 
 public class PantallaPuzzleImagenes {
-	
+
 	private LogicaPuzzle logicaPuzzle;
 	private JFrame pantallaPrincipal;
 	private Sonido sonido;
-	private BufferedImage[][] matrizImagenes;
 	private HashMap<Integer, BufferedImage> hashMapImagenes;
 	private JLabel [][] labelsImagenesRecortadas = new JLabel[3][3];
 	private int contadorMovimientos = 0;
 	private boolean estaJuegoIniciado = false;
 	private ImagenesAuxiliar  imagenesAuxiliar;
 
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
+					PantallaPuzzleImagenes window = new PantallaPuzzleImagenes();
+					window.pantallaPrincipal.setVisible(true);
+				} catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	/**
 	 * Create the application.
 	 */
@@ -51,6 +67,7 @@ public class PantallaPuzzleImagenes {
 	 */
 	private void initialize() 
 	{
+		hashMapImagenes= new HashMap<Integer, BufferedImage>();
 		logicaPuzzle = new LogicaPuzzle();
 		sonido = new Sonido();
 		imagenesAuxiliar = new ImagenesAuxiliar();
@@ -69,64 +86,7 @@ public class PantallaPuzzleImagenes {
 		comboBoxSeleccionImagenes.setBounds(10, 344, 126, 20);
 		pantallaPrincipal.getContentPane().add(comboBoxSeleccionImagenes);
 
-		JLabel labelPuzzleResuelto = new JLabel("");
-		labelPuzzleResuelto.setFocusable(false);
-		labelPuzzleResuelto.setBounds(559, 187, 120, 114);
-
-		JButton btnImagen = new JButton("Mostrar");
-		btnImagen.setFocusable(false);
-		btnImagen.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				int indexArrayRutaImagen = comboBoxSeleccionImagenes.getSelectedIndex();
-				try 
-				{
-					//Leo la imagen dentro del proyecto
-					BufferedImage imagenOriginal = ImageIO.read(PantallaPuzzleImagenes.class.getResourceAsStream(rutaImagenPuzzle[indexArrayRutaImagen]));
-					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
-					hashMapImagenes = imagenesAuxiliar.getHashMapImagenesCortadas();
-					imagenesAuxiliar.cortarImagen(imagenOriginal);
-					logicaPuzzle.mezclarMatriz();
-
-					setRompecabezas(matrizImagenes, labelsImagenesRecortadas);
-
-					mostrarImagenCompleta(labelPuzzleResuelto, imagenOriginal);
-					estaJuegoIniciado = true;
-
-				} catch (IOException e1) 
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-
-				}
-			}
-
-			private void mostrarImagenCompleta(JLabel labelImagenCompleta, BufferedImage imagenOriginal) {
-				ImageIcon imageIconSinEscalar = new ImageIcon(imagenOriginal);
-				ImageIcon iconoImagenCompletaEscalada = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labelImagenCompleta.getWidth(), labelImagenCompleta.getHeight(), Image.SCALE_SMOOTH));
-				labelImagenCompleta.setIcon(iconoImagenCompletaEscalada);
-			}
-
-
-		});
-		btnImagen.setBounds(10, 375, 126, 50);
-		pantallaPrincipal.getContentPane().add(btnImagen);
-
-		JButton btnVolver = new JButton("Atras");
-		btnVolver.setFocusable(false);
-		btnVolver.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) {
-				Menu m1 = new Menu();
-				m1.setVisiblePantalla(true);
-				pantallaPrincipal.setVisible(false);
-				pantallaPrincipal.dispose();
-			}
-		});
-		btnVolver.setBounds(10, 443, 89, 23);
-		pantallaPrincipal.getContentPane().add(btnVolver);
-
+		//LABELS
 		// Label de movimientos
 		JLabel labelMensajeDeSugerencia = new JLabel(" ");
 
@@ -145,15 +105,58 @@ public class PantallaPuzzleImagenes {
 		labelContadorDeMovimentos.setBounds(260, 11, 167, 30);
 		pantallaPrincipal.getContentPane().add(labelContadorDeMovimentos);
 
+		//BOTONES
+		JButton btnMostrarImagen = new JButton("Mostrar");
+		btnMostrarImagen.setFocusable(false);
+		btnMostrarImagen.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				int indexArrayRutaImagen = comboBoxSeleccionImagenes.getSelectedIndex();
+				try 
+				{
+					//Leo la imagen dentro del proyecto
+					BufferedImage imagenOriginal = ImageIO.read(PantallaPuzzleImagenes.class.getResourceAsStream(rutaImagenPuzzle[indexArrayRutaImagen]));
+					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
+
+					imagenesAuxiliar.cortarImagen(imagenOriginal);
+					
+					hashMapImagenes=imagenesAuxiliar.getHashMapImagenesCortadas();
+					setRompecabezas(logicaPuzzle.getMatriz(), labelsImagenesRecortadas);
+					estaJuegoIniciado = true;
+
+				} catch (IOException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+
+				}
+			}
+		});
+		btnMostrarImagen.setBounds(10, 375, 126, 50);
+		pantallaPrincipal.getContentPane().add(btnMostrarImagen);
+
+		JButton btnVolver = new JButton("Atras");
+		btnVolver.setFocusable(false);
+		btnVolver.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) {
+				Menu m1 = new Menu();
+				m1.setVisiblePantalla(true);
+				pantallaPrincipal.setVisible(false);
+				pantallaPrincipal.dispose();
+			}
+		});
+		btnVolver.setBounds(10, 443, 89, 23);
+		pantallaPrincipal.getContentPane().add(btnVolver);
+
+
 		JButton btnMensajeDeAyuda = new JButton("Ayuda");
 		btnMensajeDeAyuda.setFocusable(false);
 		btnMensajeDeAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//logicaPuzzle.proximoMovimientoImagenes();
 				setLabelMensajeAyuda(labelMensajeDeSugerencia);
 			}
-
-
 		});
 		btnMensajeDeAyuda.setBounds(10, 67, 89, 23);
 		pantallaPrincipal.getContentPane().add(btnMensajeDeAyuda);
@@ -172,9 +175,6 @@ public class PantallaPuzzleImagenes {
 			public void keyPressed(KeyEvent e) 
 			{
 				if(estaJuegoIniciado) {
-					//char tecla = e.getKeyChar();
-					//String teclaS1 =String.valueOf(tecla);
-
 
 					//Sonido
 					char teclaPresionada = e.getKeyChar();
@@ -202,17 +202,17 @@ public class PantallaPuzzleImagenes {
 
 					} 
 
-					actualizarMatrizMostradaPorPantalla(logicaPuzzle.getMatrizDesordenada(), labelsImagenesRecortadas);
+					actualizarMatrizMostradaPorPantalla(logicaPuzzle.getMatriz(), labelsImagenesRecortadas);
 
-					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setIcon(null);
-					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setOpaque(true);
-					labelsImagenesRecortadas[logicaPuzzle.getFilaVacio()][logicaPuzzle.getColVacio()].setBackground(new Color(160,70,80));
+					labelsImagenesRecortadas[logicaPuzzle.getFilaCasillaVacia()][logicaPuzzle.getColumnaCasillaVacia()].setIcon(null);
+					labelsImagenesRecortadas[logicaPuzzle.getFilaCasillaVacia()][logicaPuzzle.getColumnaCasillaVacia()].setOpaque(true);
+					labelsImagenesRecortadas[logicaPuzzle.getFilaCasillaVacia()][logicaPuzzle.getColumnaCasillaVacia()].setBackground(new Color(160,70,80));
 
 					labelContadorDeMovimentos.setVisible(true);
 					labelContadorDeMovimentos.setText("Contador de Movimentos:" + contadorMovimientos);				
 
 					comboBoxSeleccionImagenes.setVisible(false);
-					btnImagen.setVisible(false);
+					btnMostrarImagen.setVisible(false);
 
 					if (logicaPuzzle.gano()) 
 					{
@@ -236,31 +236,29 @@ public class PantallaPuzzleImagenes {
 		pantallaPrincipal.setIconImage(icon);
 	}
 
+	public void actualizarMatrizMostradaPorPantalla(int [][] matrizNumeros, JLabel[][] labels) 
+	{
+		for (int fila = 0; fila < matrizNumeros.length; fila++) 
+		{
+			for (int columna = 0; columna < matrizNumeros.length; columna++) 
+			{
+				BufferedImage subImagen=(hashMapImagenes.get(matrizNumeros[fila][columna]));
+				ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
+				ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
+				labels[fila][columna].setIcon(imagenEscaladaALabel); 
+			}
+
+		}
+	}
+
 	public void setVisiblePantalla(boolean condicion) 
 	{
 		pantallaPrincipal.setVisible(condicion);
 
 	}
 
-	public static void main(String[] args) 
-	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try 
-				{
-					PantallaPuzzleImagenes window = new PantallaPuzzleImagenes();
-					window.pantallaPrincipal.setVisible(true);
-				} catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public void setRompecabezas(BufferedImage [][] matrizImagenes, JLabel[][] matrizLabels) 
+	public void setRompecabezas(int [][] matrizNumeros, JLabel[][] matrizLabels) 
 	{
 		int anchoLabel = 190;
 		int altoLabel = 70;
@@ -271,9 +269,10 @@ public class PantallaPuzzleImagenes {
 		int seperacionEntreLabels = tamañoAnchoLabel + margenEnPixeles;
 		//int auYlabel = 70;
 
-		for (int fila = 0; fila < matrizImagenes.length; fila++) 
+
+		for (int fila = 0; fila < matrizNumeros.length; fila++) 
 		{
-			for (int columna = 0; columna < matrizImagenes[fila].length; columna++) 
+			for (int columna = 0; columna < matrizNumeros[fila].length; columna++) 
 			{
 				if(matrizLabels[fila][columna] == null) 
 				{
@@ -281,12 +280,13 @@ public class PantallaPuzzleImagenes {
 					matrizLabels[fila][columna].setBounds(anchoLabel, altoLabel, tamañoAnchoLabel, tamañoAltoLabel);
 					pantallaPrincipal.getContentPane().add(matrizLabels[fila][columna]);
 
-					ImageIcon imageIconSinEscalar = new ImageIcon(matrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+					BufferedImage subImagen= hashMapImagenes.get(matrizNumeros[fila][columna]); 
+					ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
 
 					ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(matrizLabels[fila][columna].getWidth(), matrizLabels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 					matrizLabels[fila][columna].setIcon(imagenEscaladaALabel);
 				}
-				actualizarImagen(fila,columna);
+				actualizarImagen(fila,columna,matrizNumeros);
 
 				anchoLabel+= seperacionEntreLabels;
 			}
@@ -297,34 +297,18 @@ public class PantallaPuzzleImagenes {
 
 	}
 
-	public void actualizarImagen(int fila, int columna) 
+	public void actualizarImagen(int fila, int columna, int[][] matrizNumeros) 
 	{
-		if (this.matrizImagenes[fila][columna] != null && labelsImagenesRecortadas[fila][columna] != null) 
+		if (labelsImagenesRecortadas[fila][columna] != null) 
 		{
-			ImageIcon imageIconSinEscalar = new ImageIcon(matrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+			BufferedImage subImagen= hashMapImagenes.get(matrizNumeros[fila][columna]); 
+			ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
 			// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 			ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labelsImagenesRecortadas[fila][columna].getWidth(), labelsImagenesRecortadas[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 			labelsImagenesRecortadas[fila][columna].setIcon(imagenEscaladaALabel); 
 
 		}
 	}
-
-	public void actualizarMatrizMostradaPorPantalla(BufferedImage [][] MatrizImagenes, JLabel[][] labels) 
-	{
-		for (int fila = 0; fila < MatrizImagenes.length; fila++) 
-		{
-			for (int columna = 0; columna < MatrizImagenes.length; columna++) 
-			{
-				ImageIcon imageIconSinEscalar = new ImageIcon(MatrizImagenes[fila][columna]); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
-				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
-				ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
-				labels[fila][columna].setIcon(imagenEscaladaALabel); 
-			}
-
-		}
-	}
-
-
 
 	private void setLabelMensajeAyuda(JLabel labelMensajeDeSugerencia) {
 		labelMensajeDeSugerencia.setText("<html>" + logicaPuzzle.proximoMovimiento().replace("\n", "<br>") + "</html>");

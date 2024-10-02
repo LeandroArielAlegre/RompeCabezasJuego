@@ -4,14 +4,12 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class ImagenesAuxiliar {
-	//private BufferedImage[][] MatrizDesordenada;
-	//private BufferedImage[][] MatrizOrdenada;
-	private HashMap<Integer, BufferedImage> hashMapImagenesCortadas;
 	
+	private HashMap<Integer, BufferedImage> hashMapImagenesCortadas;	
 	
-	
-	
-	
+	ImagenesAuxiliar(){
+		hashMapImagenesCortadas=new HashMap<Integer, BufferedImage>();
+	}
 
 	public void cortarImagen(BufferedImage imagen) 
 	{
@@ -20,40 +18,40 @@ public class ImagenesAuxiliar {
 		int columnas = 3;
 		int ancho = imagen.getWidth() / columnas;
 		int alto = imagen.getHeight() / filas;
-		
-			for (int i = 0; i < filas; i++) 
-			{
-				for (int j = 0; j < columnas; j++) {
-					this.hashMapImagenesCortadas.put(i, imagen.getSubimage(j * ancho, i * alto, ancho, alto));
-				}
-			  
-			}
 
-		}
-	
-	 
-	 boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) 
+		for (int fila = 0; fila < filas; fila++) 
 		{
-			if(imagenA.getWidth()!=imagenB.getWidth()||imagenA.getHeight()!=imagenB.getHeight())
-				return false;
-			for (int pixelX = 0; pixelX < imagenA.getWidth(); pixelX++) 
+			for (int columna = 0; columna < columnas; columna++) 
 			{
-				for (int pixelY = 0; pixelY < imagenA.getHeight(); pixelY++) 
+				this.hashMapImagenesCortadas.put(fila * 3 + columna, imagen.getSubimage(columna * ancho, fila * alto, ancho, alto));
+			}
+
+		}	
+	}
+
+	boolean sonBufferedImagenIguales(BufferedImage imagenA, BufferedImage imagenB) 
+	{
+		if(imagenA.getWidth()!=imagenB.getWidth()||imagenA.getHeight()!=imagenB.getHeight())
+			return false;
+		for (int pixelX = 0; pixelX < imagenA.getWidth(); pixelX++) 
+		{
+			for (int pixelY = 0; pixelY < imagenA.getHeight(); pixelY++) 
+			{
+				if (imagenA.getRGB(pixelX, pixelY) != imagenB.getRGB(pixelX, pixelY)) 
 				{
-					if (imagenA.getRGB(pixelX, pixelY) != imagenB.getRGB(pixelX, pixelY)) 
-					{
-						return false;
-					}
+					return false;
 				}
 			}
-			return true;
 		}
-	 public HashMap<Integer, BufferedImage> getHashMapImagenesCortadas() {
-			return hashMapImagenesCortadas;
-		}
+		return true;
+	}
+	
+	public HashMap<Integer, BufferedImage> getHashMapImagenesCortadas() {
+		return hashMapImagenesCortadas;
+	}
 
-		public void setHashMapImagenesCortadas(HashMap<Integer, BufferedImage> hashMapImagenesCortadas) {
-			this.hashMapImagenesCortadas = hashMapImagenesCortadas;
-		}
-	 
+	public void setHashMapImagenesCortadas(HashMap<Integer, BufferedImage> hashMapImagenesCortadas) {
+		this.hashMapImagenesCortadas = hashMapImagenesCortadas;
+	}
+
 }
