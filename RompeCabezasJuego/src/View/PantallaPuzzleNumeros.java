@@ -163,7 +163,7 @@ public class PantallaPuzzleNumeros {
 					}
 				}
 
-				// Actualiza el texto en la matriz visible y en el 
+				// Actualiza el texto en la matriz visible
 				matrizDeNumerosVisible.setText("<html>" + logicaPuzzle.imprimirMatriz().replace("\n", "<br>") + "</html>");
 				String contadorVisible = String.valueOf(contadorMovimientos);
 				lblContadorDeMovimientos.setText("Contador: " + contadorVisible);

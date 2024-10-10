@@ -76,11 +76,10 @@ public class Menu {
 		
 		setIconoDeVentana();
 		
-		//Cancion
+		//Banda sonora de pantalla menu
 		
 		sonido.reproducirSonido("/recursos/menu.wav", "menu");
-		
-		
+				
 		JButton botonPuzzleImagen = new JButton("Juego Imagen");
 		botonPuzzleImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

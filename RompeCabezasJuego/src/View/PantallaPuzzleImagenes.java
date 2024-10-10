@@ -117,7 +117,6 @@ public class PantallaPuzzleImagenes {
 				{
 					//Leo la imagen dentro del proyecto
 					BufferedImage imagenOriginal = ImageIO.read(PantallaPuzzleImagenes.class.getResourceAsStream(rutaImagenPuzzle[indexArrayRutaImagen]));
-					//le paso la imagen a mi logica de negocio y me devuelve una matriz con las imagenes
 
 					imagenesAuxiliar.cortarImagen(imagenOriginal);
 					
@@ -127,7 +126,6 @@ public class PantallaPuzzleImagenes {
 
 				} catch (IOException e1) 
 				{
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 
 				}
@@ -216,7 +214,7 @@ public class PantallaPuzzleImagenes {
 
 					if (logicaPuzzle.gano()) 
 					{
-						JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!!!!!1!!1");
+						JOptionPane.showMessageDialog(null, "Juego finalizado, Ganaste!");
 
 						labelContadorDeMovimentos.setText("Contador de Movimentos: 0");
 						labelContadorDeMovimentos.setVisible(false);
@@ -243,7 +241,7 @@ public class PantallaPuzzleImagenes {
 			for (int columna = 0; columna < matrizNumeros.length; columna++) 
 			{
 				BufferedImage subImagen=(hashMapImagenes.get(matrizNumeros[fila][columna]));
-				ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+				ImageIcon imageIconSinEscalar = new ImageIcon(subImagen);
 				// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 				ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labels[fila][columna].getWidth(), labels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 				labels[fila][columna].setIcon(imagenEscaladaALabel); 
@@ -267,8 +265,6 @@ public class PantallaPuzzleImagenes {
 		int tamañoAnchoLabel = 100;
 		int margenEnPixeles = 2;
 		int seperacionEntreLabels = tamañoAnchoLabel + margenEnPixeles;
-		//int auYlabel = 70;
-
 
 		for (int fila = 0; fila < matrizNumeros.length; fila++) 
 		{
@@ -281,7 +277,7 @@ public class PantallaPuzzleImagenes {
 					pantallaPrincipal.getContentPane().add(matrizLabels[fila][columna]);
 
 					BufferedImage subImagen= hashMapImagenes.get(matrizNumeros[fila][columna]); 
-					ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+					ImageIcon imageIconSinEscalar = new ImageIcon(subImagen);
 
 					ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(matrizLabels[fila][columna].getWidth(), matrizLabels[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 					matrizLabels[fila][columna].setIcon(imagenEscaladaALabel);
@@ -302,7 +298,7 @@ public class PantallaPuzzleImagenes {
 		if (labelsImagenesRecortadas[fila][columna] != null) 
 		{
 			BufferedImage subImagen= hashMapImagenes.get(matrizNumeros[fila][columna]); 
-			ImageIcon imageIconSinEscalar = new ImageIcon(subImagen); //PARSEO BUFFERED IMAGEN A IMAGEICON (obtengo la primera posicion de la matriz)
+			ImageIcon imageIconSinEscalar = new ImageIcon(subImagen);
 			// Ahora ajusto el tamaño de la imagen para que se adapate a la jlabel
 			ImageIcon imagenEscaladaALabel = new ImageIcon(imageIconSinEscalar.getImage().getScaledInstance(labelsImagenesRecortadas[fila][columna].getWidth(), labelsImagenesRecortadas[fila][columna].getHeight(), Image.SCALE_SMOOTH));
 			labelsImagenesRecortadas[fila][columna].setIcon(imagenEscaladaALabel); 

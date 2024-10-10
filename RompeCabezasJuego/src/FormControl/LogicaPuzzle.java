@@ -8,7 +8,7 @@ public class LogicaPuzzle {
 
 	private int[][] matriz = new int[3][3];
 	private int[][] matrizRespuesta = new int[3][3];
-	private int filaCasillaVacia; // Posición inicial del casillero vacío
+	private int filaCasillaVacia;
 	private int columnaCasillaVacia;
 	
 	public LogicaPuzzle() {
@@ -135,25 +135,25 @@ public class LogicaPuzzle {
 		StringBuilder sugerencia = new StringBuilder();
 		sugerencia.append("Te recomiendo lo siguiente: ").append(" ").append("\n");
 
-		int auxFMenos = filaCasillaVacia -1;
-		int auxFMas = filaCasillaVacia +1;
-		int auxCMas = columnaCasillaVacia +1;
+		int auxiliarFilaArribaDeVacio = filaCasillaVacia -1;
+		int auxiliarFilaAbajoDeVacio = filaCasillaVacia +1;
+		int auxiliarColumnaDerechaDeVacio = columnaCasillaVacia +1;
 
-		if(numeroDerechaMayorQueAbajo(auxFMas, auxCMas)	
-				&& numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) 
+		if(numeroDerechaMayorQueAbajo(auxiliarFilaAbajoDeVacio, auxiliarColumnaDerechaDeVacio)	
+				&& numeroDerechaMayorQueArriba(auxiliarFilaArribaDeVacio, auxiliarColumnaDerechaDeVacio)) 
 		{
-			int casillaDeArribaAux=this.matriz[auxFMenos][columnaCasillaVacia];
-			int casillaDeAbajoAux= this.matriz[auxFMas][columnaCasillaVacia];
+			int casillaDeArribaAux=this.matriz[auxiliarFilaArribaDeVacio][columnaCasillaVacia];
+			int casillaDeAbajoAux= this.matriz[auxiliarFilaAbajoDeVacio][columnaCasillaVacia];
 			if((casillaDeArribaAux>casillaDeAbajoAux)) 
 			{
 				sugerencia.append("Movete hacia Arriba").append(" ").append("\n");
 			}else{
 				sugerencia.append("Movete hacia Abajo").append(" ").append("\n");
 			}
-		}else if(numeroDerechaMayorQueAbajo(auxFMas, auxCMas)) {
+		}else if(numeroDerechaMayorQueAbajo(auxiliarFilaAbajoDeVacio, auxiliarColumnaDerechaDeVacio)) {
 			sugerencia.append("Movete hacia Abajo").append(" ").append("\n");
 
-		}else if(numeroDerechaMayorQueArriba(auxFMenos, auxCMas)) {
+		}else if(numeroDerechaMayorQueArriba(auxiliarFilaArribaDeVacio, auxiliarColumnaDerechaDeVacio)) {
 			sugerencia.append("Movete hacia Arriba").append(" ").append("\n");
 		}			
 		return sugerencia.toString();
@@ -164,7 +164,7 @@ public class LogicaPuzzle {
 				existePosicionEnMatriz(auxFMas ,columnaCasillaVacia)) {
 			//Cual de ambos es mayor:
 			if(this.matriz[filaCasillaVacia][auxCMas] >  this.matriz[auxFMas][columnaCasillaVacia]) {
-				//Si el antecedente "auxFMas" es menor a auxCMas... recomiendo moverme hacia arriba
+				//Si el antecedente "auxFMas" es menor a auxCMas, recomiendo moverme hacia arriba
 				return true;
 			}
 		}
@@ -206,7 +206,7 @@ public class LogicaPuzzle {
 					sb.append("⬜").append(" ");
 				}
 			}
-			sb.append("\n"); // Salto de línea
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
